@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumora Gallery — Nghệ Thuật Đỉnh Cao</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7A30;
+  --cream:#F5EFE0;--ivory:#FAF6EE;--charcoal:#1A1714;
+  --dark:#0E0C0A;--warm-gray:#6B6157;--border:rgba(201,168,76,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s;mix-blend-mode:difference;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .08s,top .08s,width .3s,height .3s,opacity .3s;opacity:.6;}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9990;opacity:.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:72px;background:linear-gradient(to bottom,rgba(14,12,10,.95),transparent);border-bottom:1px solid rgba(201,168,76,.08);backdrop-filter:blur(2px);transition:background .4s;}
+nav.scrolled{background:rgba(14,12,10,.97);}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:.25em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:12px;cursor:none;}
+.nav-logo span{font-size:.55rem;letter-spacing:.35em;color:var(--warm-gray);display:block;margin-top:2px;}
+.nav-links{display:flex;gap:2.8rem;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.18em;color:var(--cream);text-decoration:none;transition:color .3s,opacity .3s;position:relative;padding-bottom:5px;cursor:none;opacity:.75;font-weight:400;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);transition:width .5s,left .5s;}
+.nav-links a:hover{color:var(--gold-light);opacity:1;}
+.nav-links a:hover::after{width:100%;left:0;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ── HOME ── */
+.hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.06) 0%,transparent 60%),radial-gradient(ellipse 40% 80% at 10% 50%,rgba(150,100,50,.08) 0%,transparent 50%),var(--dark);}
+.hero-strokes{position:absolute;inset:0;overflow:hidden;}
+.stroke{position:absolute;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.07) 0%,transparent 70%);animation:strokeFloat 12s ease-in-out infinite;}
+.stroke:nth-child(1){width:900px;height:600px;top:-200px;left:-300px;}
+.stroke:nth-child(2){width:700px;height:500px;bottom:-150px;right:-200px;animation-delay:-4s;}
+.stroke:nth-child(3){width:500px;height:800px;top:20%;left:40%;animation-delay:-8s;}
+@keyframes strokeFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-20px) scale(1.05);}}
+.hero-frames{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.hero-frame{position:absolute;border:1px solid rgba(201,168,76,.12);animation:frameDrift 20s ease-in-out infinite;}
+.hero-frame:nth-child(1){width:180px;height:220px;top:15%;left:8%;}
+.hero-frame:nth-child(2){width:120px;height:160px;top:60%;left:5%;animation-delay:-6s;}
+.hero-frame:nth-child(3){width:200px;height:150px;top:20%;right:7%;animation-delay:-3s;}
+.hero-frame:nth-child(4){width:90px;height:120px;bottom:20%;right:10%;animation-delay:-9s;}
+.hero-frame::before{content:'';position:absolute;inset:6px;border:1px solid rgba(201,168,76,.07);}
+@keyframes frameDrift{0%,100%{transform:translateY(0) rotate(0deg);opacity:.4;}33%{transform:translateY(-15px) rotate(.5deg);opacity:.7;}66%{transform:translateY(8px) rotate(-.3deg);opacity:.5;}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem;}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.5em;color:var(--gold);margin-bottom:2rem;animation:fadeUp 1.2s ease both;animation-delay:.3s;}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(3.5rem,9vw,8rem);font-weight:600;line-height:.9;letter-spacing:.05em;color:var(--ivory);margin-bottom:.3em;animation:fadeUp 1.2s ease both;animation-delay:.6s;}
+.hero-title em{font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--gold-light);display:block;font-size:1.1em;letter-spacing:.02em;}
+.hero-subtitle{font-size:clamp(1rem,1.8vw,1.3rem);font-style:italic;color:var(--warm-gray);max-width:520px;margin:1.5rem auto;line-height:1.8;animation:fadeUp 1.2s ease both;animation-delay:.9s;}
+.hero-divider{width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:2rem auto;animation:scaleIn 1.2s ease both;animation-delay:1.1s;}
+.hero-cta-group{display:flex;align-items:center;justify-content:center;gap:1.5rem;animation:fadeUp 1.2s ease both;animation-delay:1.3s;}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.7rem;opacity:.5;animation:fadeIn 2s ease both;animation-delay:2s;}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold));animation:scrollPulse 2s ease-in-out infinite;}
+.scroll-text{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.35em;color:var(--gold);}
+@keyframes scrollPulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+/* BUTTONS */
+.btn-primary{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.25em;color:var(--dark);background:var(--gold);border:none;padding:14px 36px;text-transform:uppercase;cursor:none;transition:all .3s;text-decoration:none;position:relative;overflow:hidden;display:inline-block;}
+.btn-primary::before{content:'';position:absolute;inset:0;background:var(--gold-light);transform:translateX(-100%);transition:transform .4s;}
+.btn-primary:hover::before{transform:translateX(0);}
+.btn-primary span{position:relative;}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-ghost{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.25em;color:var(--gold);border:1px solid var(--gold);padding:13px 35px;text-transform:uppercase;cursor:none;transition:all .3s;text-decoration:none;background:transparent;display:inline-block;}
+.btn-ghost:hover{background:rgba(201,168,76,.08);transform:translateY(-1px);}
+
+/* MARQUEE */
+.marquee-section{padding:2rem 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.marquee-track{display:flex;gap:4rem;animation:marquee 25s linear infinite;width:max-content;}
+.marquee-item{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--warm-gray);white-space:nowrap;display:flex;align-items:center;gap:1rem;}
+.marquee-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTION HEADERS */
+.section-header{text-align:center;margin-bottom:4.5rem;position:relative;}
+.section-header::after{content:'';display:block;width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:1.5rem auto 0;}
+.section-label{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.55em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem;display:block;}
+.section-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:300;color:var(--ivory);line-height:1.15;font-family:'Cormorant Garamond',serif;}
+.section-title em{font-style:italic;color:var(--gold-light);font-weight:400;}
+
+/* FEATURED STRIP */
+.featured-strip{padding:6rem 5vw;position:relative;}
+.featured-strip::before{content:'';position:absolute;top:0;left:5vw;right:5vw;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);}
+.featured-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:1.5rem;align-items:end;}
+.feat-card{position:relative;overflow:hidden;cursor:none;background:var(--charcoal);}
+.feat-card:nth-child(2){margin-top:60px;}
+.feat-card:nth-child(3){margin-top:20px;}
+.feat-img{width:100%;object-fit:cover;display:block;filter:sepia(.15) brightness(.9);transition:transform .8s,filter .6s;}
+.feat-card:hover .feat-img{transform:scale(1.04);filter:sepia(0) brightness(1);}
+.feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,12,10,.95) 0%,rgba(14,12,10,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;}
+.feat-number{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.3em;color:var(--gold);margin-bottom:.5rem;}
+.feat-title{font-size:1.1rem;color:var(--ivory);margin-bottom:.3rem;}
+.feat-artist{font-size:.85rem;font-style:italic;color:var(--warm-gray);}
+.feat-price{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold-light);margin-top:.7rem;}
+
+/* HOME ABOUT */
+.home-about{padding:8rem 5vw;display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center;}
+.about-text .eyebrow{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.4em;color:var(--gold);margin-bottom:1.5rem;display:block;}
+.about-text h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:300;color:var(--ivory);line-height:1.4;margin-bottom:2rem;}
+.about-text h2 em{font-style:italic;color:var(--gold-light);}
+.about-text p{font-size:1.05rem;color:var(--warm-gray);line-height:2;margin-bottom:1.5rem;}
+.about-visual{position:relative;}
+.about-frame{aspect-ratio:3/4;background:linear-gradient(135deg,#2A1F15 0%,#0E0C0A 100%);border:1px solid var(--border);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.about-frame-inner{position:absolute;inset:20px;border:1px solid rgba(201,168,76,.08);display:flex;align-items:center;justify-content:center;}
+.about-frame-text{text-align:center;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.3em;color:rgba(201,168,76,.3);}
+.about-badge{position:absolute;bottom:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.15em;color:var(--dark);text-align:center;line-height:1.4;}
+
+/* ── GALLERY ── */
+.gallery-hero{padding:160px 5vw 5rem;text-align:center;position:relative;}
+.gallery-hero::before{content:'GALLERY';position:absolute;top:120px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:clamp(5rem,15vw,14rem);font-weight:700;color:rgba(201,168,76,.04);letter-spacing:.15em;white-space:nowrap;pointer-events:none;}
+.gallery-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--ivory);letter-spacing:.06em;margin-bottom:1rem;position:relative;}
+.gallery-hero h1 strong{font-weight:600;font-style:italic;color:var(--gold-light);}
+.gallery-hero p{font-size:1.15rem;font-style:italic;color:var(--warm-gray);max-width:540px;margin:0 auto;line-height:1.9;}
+.gallery-filters{padding:2rem 5vw;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+.filter-label{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.3em;color:var(--cream);margin-right:.5rem;opacity:.65;}
+.filter-btn{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--cream);background:none;border:1px solid transparent;padding:7px 18px;cursor:none;transition:all .35s;opacity:.6;}
+.filter-btn:hover{color:var(--gold-light);border-color:rgba(201,168,76,.3);opacity:1;}
+.filter-btn.active{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.07);opacity:1;}
+.gallery-masonry{padding:3rem 5vw 6rem;columns:3;column-gap:1.5rem;}
+.gallery-item{break-inside:avoid;margin-bottom:1.5rem;position:relative;cursor:none;overflow:hidden;border:1px solid transparent;transition:border-color .4s;}
+.gallery-item:hover{border-color:var(--border);}
+.g-paint{width:100%;display:block;position:relative;transition:filter .5s;}
+.gallery-item:hover .g-paint{filter:brightness(1.05);}
+.g-paint-img{width:100%;display:block;object-fit:cover;transition:transform .6s,filter .5s;}
+.gallery-item:hover .g-paint-img{transform:scale(1.03);filter:brightness(1.05);}
+.g-caption{padding:1rem;background:var(--charcoal);}
+.g-num{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.3em;color:var(--gold);margin-bottom:.3rem;}
+.g-title{font-size:1rem;color:var(--ivory);margin-bottom:.2rem;}
+.g-artist{font-size:.85rem;font-style:italic;color:var(--warm-gray);margin-bottom:.5rem;}
+.g-story{font-size:.85rem;color:var(--warm-gray);line-height:1.7;font-style:italic;}
+.g-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(201,168,76,.1);}
+.g-price{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold-light);}
+.g-inquire{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.2em;color:var(--gold);border:1px solid var(--border);padding:4px 12px;cursor:none;background:none;transition:all .3s;}
+.g-inquire:hover{background:var(--gold);color:var(--dark);}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:2rem;}
+.lightbox.open{display:flex;}
+.lightbox-close{position:absolute;top:2rem;right:2rem;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.3em;color:var(--warm-gray);background:none;border:none;cursor:none;transition:color .3s;}
+.lightbox-close:hover{color:var(--gold);}
+.lightbox-content{display:grid;grid-template-columns:1fr 380px;gap:4rem;max-width:1100px;max-height:90vh;align-items:center;}
+.lightbox-img{aspect-ratio:3/4;max-height:80vh;border:1px solid var(--border);overflow:hidden;}
+.lightbox-img img{width:100%;height:100%;object-fit:cover;}
+.lightbox-img .lb-placeholder{width:100%;height:100%;min-height:400px;}
+.lightbox-info h2{font-family:'Cinzel',serif;font-size:1.8rem;color:var(--ivory);margin-bottom:.5rem;}
+.lightbox-info .lb-artist{font-size:1.1rem;font-style:italic;color:var(--gold-light);margin-bottom:1.5rem;}
+.lightbox-info .lb-story{font-size:1rem;color:var(--warm-gray);line-height:2;margin-bottom:2rem;}
+.lightbox-info .lb-price{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold);margin-bottom:2rem;}
+.lightbox-divider{height:1px;background:var(--border);margin:1.5rem 0;}
+
+/* ── DECOR ── */
+.decor-hero{padding:160px 5vw 5rem;display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:center;min-height:70vh;}
+.decor-hero-text h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;color:var(--ivory);margin-bottom:1.5rem;line-height:1.15;}
+.decor-hero-text h1 em{font-style:italic;color:var(--gold-light);font-weight:400;}
+.decor-hero-text p{font-size:1.1rem;color:var(--warm-gray);line-height:2.1;}
+.decor-hero-visual{aspect-ratio:3/4;background:linear-gradient(135deg,#1A1A2E,#16213E 50%,#0F3460);border:1px solid var(--border);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+.decor-categories{display:flex;gap:1rem;flex-wrap:wrap;padding:0 5vw 2.5rem;justify-content:center;}
+.decor-cat-btn{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--cream);background:none;border:1px solid transparent;padding:8px 20px;cursor:none;transition:all .35s;opacity:.6;}
+.decor-cat-btn.active,.decor-cat-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,168,76,.07);opacity:1;}
+.articles-masonry{padding:2rem 5vw 6rem;columns:3;column-gap:1.5rem;}
+.article-card{break-inside:avoid;margin-bottom:1.5rem;border:1px solid var(--border);cursor:none;transition:all .4s;overflow:hidden;background:var(--charcoal);}
+.article-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.article-thumb{aspect-ratio:16/9;display:block;overflow:hidden;}
+.article-thumb-div{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.article-thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.2) brightness(.7);transition:filter .5s,transform .6s;}
+.article-card:hover .article-thumb img{filter:sepia(0) brightness(.85);transform:scale(1.03);}
+.article-body{padding:1.5rem;}
+.article-tag{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;display:inline-block;border:1px solid rgba(201,168,76,.3);padding:3px 10px;}
+.article-body h3{font-size:1.05rem;color:var(--ivory);margin-bottom:.8rem;line-height:1.5;}
+.article-body p{font-size:.9rem;color:var(--warm-gray);line-height:1.9;}
+.article-read{margin-top:1.2rem;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.2em;color:var(--gold);border:none;background:none;cursor:none;transition:all .3s;padding:0;display:flex;align-items:center;gap:.5rem;}
+.article-read:hover{gap:.8rem;}
+
+/* ARTICLE MODAL */
+.article-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.96);overflow-y:auto;padding:6rem 5vw 4rem;}
+.article-modal.open{display:block;}
+.article-modal-inner{max-width:760px;margin:0 auto;}
+.article-modal-close{position:fixed;top:1.5rem;right:2rem;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--warm-gray);background:none;border:none;cursor:none;transition:color .3s;}
+.article-modal-close:hover{color:var(--gold);}
+.article-modal-tag{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.3em;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:4px 12px;display:inline-block;margin-bottom:1.5rem;}
+.article-modal-title{font-size:clamp(1.6rem,3.5vw,2.5rem);font-weight:300;color:var(--ivory);margin-bottom:1rem;line-height:1.3;}
+.article-modal-img{width:100%;aspect-ratio:16/9;margin-bottom:2.5rem;overflow:hidden;border:1px solid var(--border);}
+.article-modal-img div{width:100%;height:100%;}
+.article-modal-content{font-size:1.05rem;color:var(--cream);line-height:2.1;}
+.article-modal-content p{margin-bottom:1.5rem;}
+.article-modal-content h4{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.15em;color:var(--gold);margin:2rem 0 .8rem;}
+.article-modal-content ul{margin:0 0 1.5rem 1.5rem;}
+.article-modal-content ul li{margin-bottom:.6rem;}
+
+/* ── ABOUT ── */
+.about-page{padding:160px 5vw 6rem;}
+.about-page-header{text-align:center;margin-bottom:7rem;position:relative;}
+.about-page-header::before{content:'LUMORA';position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:clamp(4rem,12vw,10rem);font-weight:700;color:rgba(201,168,76,.035);letter-spacing:.2em;white-space:nowrap;pointer-events:none;}
+.about-page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--ivory);margin-bottom:1.5rem;position:relative;letter-spacing:.05em;}
+.about-story{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center;margin-bottom:8rem;}
+.about-story-text h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:300;color:var(--ivory);margin-bottom:2rem;line-height:1.4;}
+.about-story-text h2 em{font-style:italic;color:var(--gold-light);}
+.about-story-text p{font-size:1.05rem;color:var(--warm-gray);line-height:2;margin-bottom:1.2rem;}
+.about-visual2{aspect-ratio:1;background:radial-gradient(ellipse at 40% 40%,rgba(201,168,76,.08) 0%,transparent 60%),var(--charcoal);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;}
+.about-visual2::after{content:'';position:absolute;inset:15px;border:1px solid rgba(201,168,76,.06);}
+.about-logo-lg{font-family:'Cinzel',serif;font-size:1.3rem;letter-spacing:.3em;color:rgba(201,168,76,.4);text-align:center;}
+.about-logo-lg span{display:block;font-size:.6rem;letter-spacing:.5em;margin-top:.5rem;}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:6rem;}
+.value-card{padding:2.5rem;border:1px solid var(--border);background:var(--charcoal);}
+.value-num{font-family:'Cinzel',serif;font-size:2.5rem;color:rgba(201,168,76,.15);margin-bottom:1rem;}
+.value-card h3{font-size:1.1rem;color:var(--ivory);margin-bottom:.8rem;}
+.value-card p{font-size:.9rem;color:var(--warm-gray);line-height:1.9;}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.team-card{text-align:center;}
+.team-photo{aspect-ratio:3/4;margin-bottom:1.4rem;background:var(--charcoal);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:3rem;color:rgba(201,168,76,.2);overflow:hidden;}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.1) brightness(.9);}
+.team-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--ivory);margin-bottom:.3rem;letter-spacing:.02em;}
+.team-role{font-size:.85rem;font-style:italic;color:var(--gold);letter-spacing:.05em;}
+.team-bio{font-size:.9rem;color:var(--warm-gray);line-height:1.9;margin-top:.9rem;}
+
+/* ── CONTACT ── */
+.contact-page{padding:160px 5vw 6rem;display:grid;grid-template-columns:1fr 1.2fr;gap:8rem;min-height:80vh;align-items:start;}
+.contact-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;color:var(--ivory);margin-bottom:1.5rem;letter-spacing:.04em;}
+.contact-left p{font-size:1.05rem;color:var(--warm-gray);line-height:2.1;margin-bottom:3rem;}
+.contact-info-item{display:flex;gap:1.5rem;align-items:flex-start;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border);}
+.contact-icon{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:var(--gold);}
+.contact-info-text strong{display:block;font-size:.85rem;font-family:'Cinzel',serif;letter-spacing:.1em;color:var(--ivory);margin-bottom:.3rem;}
+.contact-info-text span{font-size:.9rem;color:var(--warm-gray);}
+.contact-form{background:var(--charcoal);padding:3rem;border:1px solid var(--border);}
+.contact-form h2{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--ivory);margin-bottom:2rem;letter-spacing:.1em;}
+.form-group{margin-bottom:1.5rem;}
+.form-group label{display:block;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.25em;color:var(--warm-gray);text-transform:uppercase;margin-bottom:.6rem;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:12px 16px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .3s;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--gold);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+/* FOOTER */
+footer{padding:4rem 5vw 2rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:4rem;}
+.footer-logo{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:.25em;color:var(--gold);margin-bottom:1rem;display:block;}
+.footer-tagline{font-size:.9rem;font-style:italic;color:var(--warm-gray);line-height:1.8;margin-bottom:1.5rem;}
+.footer-social{display:flex;gap:1rem;}
+.social-btn{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--warm-gray);font-size:.7rem;cursor:none;transition:all .3s;text-decoration:none;}
+.social-btn:hover{border-color:var(--gold);color:var(--gold);}
+.footer-col h4{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1.2rem;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:.7rem;}
+.footer-col a{font-size:.9rem;color:var(--warm-gray);text-decoration:none;cursor:none;transition:color .3s;}
+.footer-col a:hover{color:var(--ivory);}
+.footer-bottom{padding:2rem 5vw 1.5rem;border-top:1px solid rgba(201,168,76,.06);display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:.75rem;color:rgba(107,97,87,.5);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════════════
+   ADMIN SYSTEM
+══════════════════════════════════════ */
+
+/* LOGIN MODAL */
+.admin-login-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.97);align-items:center;justify-content:center;}
+.admin-login-modal.open{display:flex;}
+.login-box{background:var(--charcoal);border:1px solid var(--border);padding:3rem;width:380px;text-align:center;}
+.login-box h2{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.25em;color:var(--gold);margin-bottom:.5rem;}
+.login-box p{font-size:.85rem;color:var(--warm-gray);margin-bottom:2rem;font-style:italic;}
+.login-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:12px 16px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .3s;margin-bottom:1rem;text-align:center;letter-spacing:.2em;}
+.login-input:focus{border-color:var(--gold);}
+.login-btn{width:100%;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.25em;color:var(--dark);background:var(--gold);border:none;padding:14px;cursor:pointer;transition:all .3s;margin-bottom:.8rem;}
+.login-btn:hover{background:var(--gold-light);}
+.login-cancel{width:100%;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);background:none;border:1px solid var(--border);padding:10px;cursor:pointer;transition:all .3s;}
+.login-cancel:hover{border-color:var(--warm-gray);color:var(--ivory);}
+.login-error{color:#e07070;font-size:.85rem;margin-bottom:1rem;display:none;}
+
+/* ADMIN TOGGLE */
+.admin-toggle{position:fixed;bottom:2rem;right:2rem;z-index:800;background:var(--gold);color:var(--dark);font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;border:none;padding:12px 20px;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(201,168,76,.3);}
+.admin-toggle:hover{background:var(--gold-light);}
+.admin-toggle.logged-in{background:var(--charcoal);color:var(--gold);border:1px solid var(--gold);}
+
+/* ADMIN PANEL */
+.admin-panel{display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,6,4,.99);overflow-y:auto;}
+.admin-panel.open{display:block;}
+.admin-header{background:var(--charcoal);border-bottom:1px solid var(--border);padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.admin-title{font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.2em;color:var(--gold);}
+.admin-header-right{display:flex;align-items:center;gap:1.5rem;}
+.admin-user{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);}
+.admin-logout{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);background:none;border:1px solid var(--border);padding:6px 14px;cursor:pointer;transition:all .3s;}
+.admin-logout:hover{border-color:var(--gold);color:var(--gold);}
+.admin-close{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);background:none;border:none;cursor:pointer;transition:color .3s;}
+.admin-close:hover{color:var(--gold);}
+.admin-body{padding:2rem 3rem;display:grid;grid-template-columns:220px 1fr;gap:2rem;min-height:calc(100vh - 70px);}
+.admin-sidebar{border-right:1px solid var(--border);padding-right:2rem;}
+.admin-sidebar-label{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.3em;color:var(--warm-gray);margin-bottom:1rem;padding:0 16px;}
+.admin-nav-item{display:block;width:100%;text-align:left;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;color:var(--warm-gray);background:none;border:none;cursor:pointer;padding:12px 16px;transition:all .3s;margin-bottom:4px;}
+.admin-nav-item:hover,.admin-nav-item.active{color:var(--gold);background:rgba(201,168,76,.06);}
+.admin-section{display:none;}
+.admin-section.active{display:block;}
+.admin-section-title{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+
+/* ADMIN FORMS */
+.admin-form-group{margin-bottom:1.5rem;}
+.admin-form-group label{display:block;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);margin-bottom:.5rem;}
+.admin-form-group input,.admin-form-group textarea,.admin-form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .3s;}
+.admin-form-group input:focus,.admin-form-group textarea:focus,.admin-form-group select:focus{border-color:var(--gold);}
+.admin-form-group textarea{min-height:100px;resize:vertical;}
+.admin-form-group select option{background:var(--charcoal);}
+.admin-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.admin-btn{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;background:var(--gold);color:var(--dark);border:none;padding:11px 28px;cursor:pointer;transition:all .3s;margin-right:.8rem;margin-bottom:.8rem;}
+.admin-btn:hover{background:var(--gold-light);}
+.admin-btn.secondary{background:none;color:var(--warm-gray);border:1px solid var(--border);}
+.admin-btn.secondary:hover{border-color:var(--gold);color:var(--gold);}
+.admin-btn.danger{background:rgba(180,60,60,.15);color:#e08080;border:1px solid rgba(180,60,60,.3);}
+.admin-btn.danger:hover{background:rgba(180,60,60,.3);}
+.admin-btn.warn{background:rgba(201,168,76,.15);color:var(--gold-light);border:1px solid rgba(201,168,76,.3);}
+.admin-btn.warn:hover{background:rgba(201,168,76,.3);}
+
+/* IMAGE UPLOAD */
+.img-upload-area{border:2px dashed var(--border);padding:2rem;text-align:center;cursor:pointer;transition:border-color .3s;margin-bottom:1rem;position:relative;}
+.img-upload-area:hover,.img-upload-area.drag-over{border-color:var(--gold);}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload-icon{font-size:2rem;color:rgba(201,168,76,.4);margin-bottom:.8rem;}
+.img-upload-text{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--warm-gray);}
+.img-upload-sub{font-size:.8rem;color:rgba(107,97,87,.6);margin-top:.3rem;}
+.img-preview{width:100%;max-height:200px;object-fit:cover;display:none;margin-top:1rem;border:1px solid var(--border);}
+.img-preview.show{display:block;}
+
+/* ADMIN LISTS */
+.admin-list{margin-top:1rem;}
+.admin-list-item{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border:1px solid var(--border);margin-bottom:.8rem;background:var(--charcoal);transition:border-color .3s;gap:1rem;}
+.admin-list-item:hover{border-color:rgba(201,168,76,.4);}
+.admin-list-item-thumb{width:60px;height:60px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;}
+.admin-list-item-thumb-placeholder{width:60px;height:60px;background:var(--dark);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--warm-gray);}
+.admin-list-item-info{flex:1;min-width:0;}
+.admin-list-item-title{font-size:.95rem;color:var(--ivory);margin-bottom:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.admin-list-item-meta{font-size:.8rem;color:var(--warm-gray);font-style:italic;}
+.admin-list-item-actions{display:flex;gap:.5rem;flex-shrink:0;}
+
+/* ADMIN STATS */
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;}
+.admin-stat{background:var(--charcoal);border:1px solid var(--border);padding:1.5rem;text-align:center;}
+.admin-stat-num{font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);display:block;}
+.admin-stat-label{font-size:.8rem;color:var(--warm-gray);margin-top:.3rem;}
+
+/* ADMIN TIP */
+.admin-tip{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);padding:1rem 1.5rem;margin-bottom:1.5rem;font-size:.9rem;color:var(--warm-gray);line-height:1.8;}
+.admin-tip strong{color:var(--gold-light);}
+
+/* EDIT MODE INDICATOR */
+.edit-indicator{position:fixed;top:72px;left:0;right:0;background:rgba(201,168,76,.15);border-bottom:1px solid var(--gold);padding:.5rem;text-align:center;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--gold);z-index:99;display:none;}
+.edit-indicator.show{display:block;}
+
+/* MSG */
+.admin-msg{margin-top:1rem;font-size:.9rem;color:var(--gold);display:none;padding:.8rem 1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);}
+
+/* GUIDE */
+.guide-step{background:var(--charcoal);border:1px solid var(--border);padding:1.5rem;margin-bottom:1rem;}
+.guide-step-num{font-family:'Cinzel',serif;font-size:1.5rem;color:rgba(201,168,76,.2);float:left;margin-right:1rem;line-height:1;}
+.guide-step-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.5rem;}
+.guide-step-text{font-size:.9rem;color:var(--warm-gray);line-height:1.9;clear:both;}
+
+/* ── PAINTERLY ENHANCEMENTS ── */
+/* Flowing gold divider */
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.12) 15%,rgba(201,168,76,.4) 50%,rgba(201,168,76,.12) 85%,transparent);position:relative;margin:0;}
+.gold-divider-center{display:block;width:1px;height:24px;background:rgba(201,168,76,.25);margin:0 auto;}
+
+/* Featured strip watermark */
+.featured-strip{padding:6rem 5vw;position:relative;overflow:hidden;}
+.featured-strip::before{content:'';position:absolute;top:0;left:5vw;right:5vw;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);}
+.featured-strip::after{content:'LUMORA';position:absolute;bottom:-20px;right:-20px;font-family:'Cinzel',serif;font-size:12rem;font-weight:700;color:rgba(201,168,76,.025);letter-spacing:.15em;pointer-events:none;line-height:1;}
+
+/* Article card hover gold accent */
+.article-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:linear-gradient(to bottom,var(--gold),var(--gold-dark));transition:height .5s ease;}
+.article-card:hover::before{height:100%;}
+
+/* Gallery item hover gold line */
+.gallery-item::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:linear-gradient(to bottom,var(--gold),transparent);transition:height .6s ease;z-index:1;}
+.gallery-item:hover::before{height:100%;}
+
+/* Feat card number styling */
+.feat-number{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.4em;color:rgba(201,168,76,.7);margin-bottom:.6rem;display:block;}
+
+/* g-num */
+.g-num{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.35em;color:rgba(201,168,76,.6);margin-bottom:.4rem;display:block;}
+
+/* Contact info items */
+.contact-info-item{display:flex;gap:1.5rem;align-items:flex-start;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(201,168,76,.1);}
+.contact-icon{width:38px;height:38px;border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:var(--gold);background:rgba(201,168,76,.04);}
+.contact-info-text strong{display:block;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:.4rem;}
+.contact-info-text span{font-size:.95rem;color:var(--warm-gray);line-height:1.7;}
+
+/* About page values number */
+.value-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-style:italic;color:rgba(201,168,76,.12);margin-bottom:.8rem;line-height:1;}
+
+/* Footer link styling */
+.footer-col h4{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.35em;color:var(--gold);margin-bottom:1.4rem;opacity:.8;}
+.footer-col a{font-size:.9rem;color:rgba(107,97,87,.7);text-decoration:none;cursor:none;transition:color .3s;}
+.footer-col a:hover{color:var(--cream);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .featured-grid,.home-about,.about-story,.contact-page,.decor-hero,.lightbox-content{grid-template-columns:1fr;}
+  .gallery-masonry,.articles-masonry{columns:2;}
+  .values-grid,.team-grid{grid-template-columns:1fr 1fr;}
+  footer{grid-template-columns:1fr 1fr;}
+  .admin-body{grid-template-columns:1fr;}
+  .nav-links{gap:1.5rem;}
+  .featured-strip::after{display:none;}
+}
+@media(max-width:600px){
+  .gallery-masonry,.articles-masonry{columns:1;}
+  .values-grid,.team-grid{grid-template-columns:1fr;}
+  footer{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes scaleIn{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="edit-indicator" id="editIndicator">✎ CHẾ ĐỘ QUẢN TRỊ — Bạn đang đăng nhập với tư cách Quản Trị Viên</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#" onclick="showPage('home');return false;">LUMORA<span>GALLERY · LUMORAGALLERY.ART</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false;">Trang Chủ</a></li>
+    <li><a href="#" onclick="showPage('gallery');return false;">Gallery</a></li>
+    <li><a href="#" onclick="showPage('decor');return false;">Nghệ Thuật Nội Thất</a></li>
+    <li><a href="#" onclick="showPage('about');return false;">Về Chúng Tôi</a></li>
+    <li><a href="#" onclick="showPage('contact');return false;">Liên Hệ</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="page active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-strokes"><div class="stroke"></div><div class="stroke"></div><div class="stroke"></div></div>
+    <div class="hero-frames"><div class="hero-frame"></div><div class="hero-frame"></div><div class="hero-frame"></div><div class="hero-frame"></div></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Chào mừng đến với không gian nghệ thuật đỉnh cao</p>
+      <h1 class="hero-title">LUMORA<br><em>Gallery</em></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">Nơi những kiệt tác hội họa gặp gỡ linh hồn những người trân trọng vẻ đẹp vĩnh hằng</p>
+      <div class="hero-cta-group">
+        <a class="btn-primary" href="#" onclick="showPage('gallery');return false;"><span>Khám Phá Gallery</span></a>
+        <a class="btn-ghost" href="#" onclick="showPage('about');return false;">Về Chúng Tôi</a>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div><span class="scroll-text">CUỘN XUỐNG</span></div>
+  </section>
+
+  <div class="marquee-section">
+    <div class="marquee-track" id="marqueeTrack">
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Sơn Dầu</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Lụa Việt Nam</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Màu Nước</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tác Phẩm Độc Bản</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Nghệ Sĩ Đương Đại</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Bộ Sưu Tập Tuyển Chọn</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Phong Cảnh</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Trừu Tượng</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Sơn Dầu</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Lụa Việt Nam</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Màu Nước</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tác Phẩm Độc Bản</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Nghệ Sĩ Đương Đại</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Bộ Sưu Tập Tuyển Chọn</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Phong Cảnh</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Tranh Trừu Tượng</span>
+    </div>
+  </div>
+
+  <section class="featured-strip reveal">
+    <div class="section-header">
+      <span class="section-label">Tuyển Chọn Nổi Bật</span>
+      <h2 class="section-title">Những Kiệt Tác <em>Đang Trưng Bày</em></h2>
+    </div>
+    <div class="featured-grid" id="featuredGrid">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <section class="home-about reveal">
+    <div class="about-text">
+      <span class="eyebrow">Câu Chuyện Của Chúng Tôi</span>
+      <h2>Nơi Nghệ Thuật Trở Thành <em>Di Sản</em></h2>
+      <p>Lumora Gallery ra đời với một sứ mệnh: kết nối những tâm hồn yêu cái đẹp với những kiệt tác hội họa đích thực. Mỗi tác phẩm trong bộ sưu tập của chúng tôi đều là một câu chuyện.</p>
+      <p>Chúng tôi tuyển chọn kỹ lưỡng từng tác phẩm, không chỉ về giá trị thẩm mỹ mà còn về chiều sâu tinh thần và tiềm năng đầu tư lâu dài.</p>
+      <a class="btn-ghost" href="#" onclick="showPage('about');return false;">Tìm Hiểu Thêm</a>
+    </div>
+    <div class="about-visual">
+      <div class="about-frame"><div class="about-frame-inner"><div class="about-frame-text">LUMORA<br>GALLERY<br>· · ·<br>Est. 2024</div></div></div>
+      <div class="about-badge">TUYỂN<br>CHỌN<br>ĐỘC BẢN</div>
+    </div>
+  </section>
+
+  <footer>
+    <div><span class="footer-logo">LUMORA GALLERY</span><p class="footer-tagline">Nơi nghệ thuật chạm đến linh hồn<br>của những người biết trân quý cái đẹp</p><div class="footer-social"><a class="social-btn" href="#">f</a><a class="social-btn" href="#">in</a><a class="social-btn" href="#">ig</a></div></div>
+    <div class="footer-col"><h4>Khám Phá</h4><ul><li><a href="#" onclick="showPage('gallery');return false;">Gallery Tranh</a></li><li><a href="#" onclick="showPage('decor');return false;">Nghệ Thuật Nội Thất</a></li><li><a href="#" onclick="showPage('about');return false;">Về Lumora</a></li><li><a href="#" onclick="showPage('contact');return false;">Liên Hệ</a></li></ul></div>
+    <div class="footer-col"><h4>Dịch Vụ</h4><ul><li><a href="#">Tư Vấn Mua Tranh</a></li><li><a href="#">Thiết Kế Nội Thất</a></li><li><a href="#">Chứng Nhận Tác Phẩm</a></li></ul></div>
+    <div class="footer-col"><h4>Liên Hệ</h4><ul><li><a href="#">lumoragallery.art</a></li><li><a href="#">gallery@lumora.art</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span class="footer-copy">© 2024 Lumora Gallery</span><span class="footer-copy">lumoragallery.art</span></div>
+</div>
+
+<!-- ══════════ GALLERY ══════════ -->
+<div id="gallery" class="page">
+  <div class="gallery-hero">
+    <span class="section-label">Bộ Sưu Tập</span>
+    <h1>Tranh <strong>Nghệ Thuật</strong></h1>
+    <p>Từng tác phẩm là một thế giới riêng — hãy để câu chuyện của chúng chạm đến bạn</p>
+  </div>
+  <div class="gallery-filters">
+    <span class="filter-label">Thể Loại:</span>
+    <button class="filter-btn active" onclick="filterGallery('all',this)">Tất Cả</button>
+    <button class="filter-btn" onclick="filterGallery('Sơn Dầu',this)">Sơn Dầu</button>
+    <button class="filter-btn" onclick="filterGallery('Tranh Lụa',this)">Lụa</button>
+    <button class="filter-btn" onclick="filterGallery('Màu Nước',this)">Màu Nước</button>
+    <button class="filter-btn" onclick="filterGallery('Sơn Mài',this)">Sơn Mài</button>
+    <button class="filter-btn" onclick="filterGallery('Trừu Tượng',this)">Trừu Tượng</button>
+  </div>
+  <div class="gallery-masonry" id="galleryMasonry"></div>
+  <footer>
+    <div><span class="footer-logo">LUMORA GALLERY</span><p class="footer-tagline">Nơi nghệ thuật chạm đến linh hồn</p></div>
+    <div class="footer-col"><h4>Khám Phá</h4><ul><li><a href="#" onclick="showPage('home');return false;">Trang Chủ</a></li><li><a href="#" onclick="showPage('decor');return false;">Nội Thất</a></li><li><a href="#" onclick="showPage('contact');return false;">Liên Hệ</a></li></ul></div>
+    <div class="footer-col"></div><div class="footer-col"></div>
+  </footer>
+  <div class="footer-bottom"><span class="footer-copy">© 2024 Lumora Gallery</span><span class="footer-copy">lumoragallery.art</span></div>
+</div>
+
+<!-- ══════════ DECOR ══════════ -->
+<div id="decor" class="page">
+  <div class="decor-hero">
+    <div class="decor-hero-text">
+      <span class="section-label">Kiến Thức & Phong Thủy</span>
+      <h1>Nghệ Thuật Trang Trí Tranh<br><em>Trong Không Gian Sống</em></h1>
+      <p>Từ tâm lý học không gian đến phong thủy ngũ hành — những kiến thức chắt lọc giúp bạn đặt đúng bức tranh, đúng vị trí, đúng thời điểm.</p>
+    </div>
+    <div class="decor-hero-visual">
+      <div style="font-family:'Cinzel',serif;font-size:3rem;color:rgba(201,168,76,.15);">18</div>
+      <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.4em;color:rgba(201,168,76,.3);">BÀI VIẾT</div>
+    </div>
+  </div>
+  <div style="text-align:center;padding:0 5vw 2.5rem;">
+    <div class="decor-categories">
+      <button class="decor-cat-btn active" onclick="filterDecor('all',this)">Tất Cả</button>
+      <button class="decor-cat-btn" onclick="filterDecor('noi-that',this)">Không Gian & Nội Thất</button>
+      <button class="decor-cat-btn" onclick="filterDecor('phong-thuy',this)">Phong Thủy</button>
+      <button class="decor-cat-btn" onclick="filterDecor('tam-ly',this)">Tâm Lý & Cá Tính</button>
+      <button class="decor-cat-btn" onclick="filterDecor('suu-tam',this)">Sưu Tầm & Đầu Tư</button>
+    </div>
+  </div>
+  <div class="articles-masonry" id="articlesMasonry"></div>
+  <footer>
+    <div><span class="footer-logo">LUMORA GALLERY</span><p class="footer-tagline">Nơi nghệ thuật chạm đến linh hồn</p></div>
+    <div class="footer-col"><h4>Khám Phá</h4><ul><li><a href="#" onclick="showPage('home');return false;">Trang Chủ</a></li><li><a href="#" onclick="showPage('gallery');return false;">Gallery</a></li><li><a href="#" onclick="showPage('contact');return false;">Liên Hệ</a></li></ul></div>
+    <div class="footer-col"></div><div class="footer-col"></div>
+  </footer>
+  <div class="footer-bottom"><span class="footer-copy">© 2024 Lumora Gallery</span><span class="footer-copy">lumoragallery.art</span></div>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<div id="about" class="page">
+  <div class="about-page">
+    <div class="about-page-header">
+      <span class="section-label">Câu Chuyện Của Chúng Tôi</span>
+      <h1>Lumora Gallery</h1>
+      <p style="font-size:1.2rem;font-style:italic;color:var(--gold-light);max-width:600px;margin:0 auto;">"Lumora" — Ánh Sáng Dẫn Lối Vào Thế Giới Nghệ Thuật</p>
+    </div>
+    <div class="about-story">
+      <div class="about-story-text">
+        <h2>Khởi Nguồn Từ <em>Tình Yêu Nghệ Thuật</em></h2>
+        <p>Lumora Gallery được thành lập với một niềm tin đơn giản: nghệ thuật đích thực xứng đáng được trân trọng và chia sẻ với những người thực sự hiểu giá trị của nó.</p>
+        <p>Bộ sưu tập của chúng tôi được xây dựng qua nhiều năm tìm kiếm và tuyển chọn kỹ lưỡng — từ những xưởng vẽ lặng lẽ ở Hà Nội đến những gallery danh tiếng tại Paris. Mỗi tác phẩm đều mang theo câu chuyện riêng của nó.</p>
+        <p>Chúng tôi không đơn thuần bán tranh. Chúng tôi kết nối bạn với một phần của lịch sử, của cảm xúc, của sự sáng tạo con người ở đỉnh cao nhất.</p>
+      </div>
+      <div class="about-visual2"><div class="about-logo-lg">LUMORA<span>GALLERY · ART</span></div></div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card"><div class="value-num">01</div><h3>Tính Xác Thực</h3><p>Mỗi tác phẩm đều kèm chứng nhận nguồn gốc từ các chuyên gia nghệ thuật độc lập. Chúng tôi cam kết tuyệt đối về tính trung thực.</p></div>
+      <div class="value-card"><div class="value-num">02</div><h3>Tuyển Chọn Tinh Tế</h3><p>Chúng tôi tìm kiếm những tác phẩm có chiều sâu tâm hồn, câu chuyện và tiềm năng vượt thời gian — không chỉ đơn thuần là đẹp.</p></div>
+      <div class="value-card"><div class="value-num">03</div><h3>Dịch Vụ Cá Nhân Hóa</h3><p>Chúng tôi cung cấp dịch vụ tư vấn riêng, giúp bạn tìm được tác phẩm phù hợp với không gian và bản mệnh của bạn.</p></div>
+    </div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:300;color:var(--ivory);text-align:center;margin-bottom:.8rem;">Đội Ngũ Chúng Tôi</h2>
+    <p style="text-align:center;font-style:italic;color:var(--warm-gray);margin-bottom:3.5rem;font-size:1rem;">Những con người đằng sau mỗi kiệt tác</p>
+    <div class="team-grid" id="teamGrid"><!-- rendered by JS --></div>
+  </div>
+  <footer>
+    <div><span class="footer-logo">LUMORA GALLERY</span><p class="footer-tagline">Nơi nghệ thuật chạm đến linh hồn</p></div>
+    <div class="footer-col"><h4>Khám Phá</h4><ul><li><a href="#" onclick="showPage('home');return false;">Trang Chủ</a></li><li><a href="#" onclick="showPage('gallery');return false;">Gallery</a></li><li><a href="#" onclick="showPage('contact');return false;">Liên Hệ</a></li></ul></div>
+    <div class="footer-col"></div><div class="footer-col"></div>
+  </footer>
+  <div class="footer-bottom"><span class="footer-copy">© 2024 Lumora Gallery</span><span class="footer-copy">lumoragallery.art</span></div>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<div id="contact" class="page">
+  <div class="contact-page">
+    <div class="contact-left">
+      <span class="section-label">Kết Nối Với Chúng Tôi</span>
+      <h1>Liên Hệ</h1>
+      <p>Chúng tôi sẵn sàng đồng hành cùng bạn trong hành trình tìm kiếm tác phẩm nghệ thuật hoàn hảo.</p>
+      <div id="contactInfoBlock"><!-- rendered by JS --></div>
+    </div>
+    <div class="contact-form">
+      <h2>GỬI TIN NHẮN</h2>
+      <div class="form-row">
+        <div class="form-group"><label>Họ & Tên</label><input type="text" placeholder="Nguyễn Văn A"></div>
+        <div class="form-group"><label>Điện Thoại</label><input type="tel" placeholder="+84 xxx xxx xxx"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Chủ Đề</label><select><option>Hỏi về tác phẩm cụ thể</option><option>Tư vấn mua tranh</option><option>Tư vấn phong thủy & nội thất</option><option>Hợp tác kinh doanh</option><option>Khác</option></select></div>
+      <div class="form-group"><label>Lời Nhắn</label><textarea placeholder="Chia sẻ với chúng tôi về không gian của bạn..."></textarea></div>
+      <button class="btn-primary" style="width:100%;" onclick="alert('Cảm ơn bạn! Chúng tôi sẽ liên hệ trong vòng 24 giờ.')"><span>GỬI TIN NHẮN</span></button>
+    </div>
+  </div>
+  <footer>
+    <div><span class="footer-logo">LUMORA GALLERY</span><p class="footer-tagline">Nơi nghệ thuật chạm đến linh hồn</p></div>
+    <div class="footer-col"><h4>Khám Phá</h4><ul><li><a href="#" onclick="showPage('home');return false;">Trang Chủ</a></li><li><a href="#" onclick="showPage('gallery');return false;">Gallery</a></li><li><a href="#" onclick="showPage('about');return false;">Về Chúng Tôi</a></li></ul></div>
+    <div class="footer-col"></div><div class="footer-col"></div>
+  </footer>
+  <div class="footer-bottom"><span class="footer-copy">© 2024 Lumora Gallery</span><span class="footer-copy">lumoragallery.art</span></div>
+</div>
+
+<!-- ══════════ LIGHTBOX ══════════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕ ĐÓNG</button>
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <div class="lightbox-img" id="lbImgWrap"><div class="lb-placeholder" id="lbPlaceholder"></div></div>
+    <div class="lightbox-info">
+      <h2 id="lbTitle">—</h2>
+      <div class="lb-artist" id="lbArtist">—</div>
+      <div class="lightbox-divider"></div>
+      <p class="lb-story" id="lbStory">—</p>
+      <div class="lb-price" id="lbPrice">—</div>
+      <a class="btn-primary" href="#" onclick="closeLightbox();showPage('contact');return false;"><span>Liên Hệ Hỏi Mua</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ARTICLE MODAL ══════════ -->
+<div class="article-modal" id="articleModal">
+  <button class="article-modal-close" onclick="closeArticle()">✕ ĐÓNG</button>
+  <div class="article-modal-inner">
+    <span class="article-modal-tag" id="amTag"></span>
+    <h1 class="article-modal-title" id="amTitle"></h1>
+    <div style="font-size:.85rem;font-style:italic;color:var(--warm-gray);margin-bottom:2rem;">Lumora Gallery · Nghệ Thuật Nội Thất</div>
+    <div class="article-modal-img"><div id="amImg"></div></div>
+    <div class="article-modal-content" id="amContent"></div>
+    <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;">
+      <p style="font-style:italic;color:var(--warm-gray);margin-bottom:1.5rem;">Bạn cần tư vấn về chọn tranh cho không gian của mình?</p>
+      <a class="btn-primary" href="#" onclick="closeArticle();showPage('contact');return false;"><span>Liên Hệ Tư Vấn Miễn Phí</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN LOGIN ══════════ -->
+<div class="admin-login-modal" id="loginModal">
+  <div class="login-box">
+    <h2>QUẢN TRỊ VIÊN</h2>
+    <p>Lumora Gallery · Admin Access</p>
+    <div class="login-error" id="loginError">Mật khẩu không đúng. Vui lòng thử lại.</div>
+    <input class="login-input" type="password" id="loginPass" placeholder="· · · · · · · ·" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ĐĂNG NHẬP</button>
+    <button class="login-cancel" onclick="closeLogin()">HỦY</button>
+  </div>
+</div>
+
+<!-- ADMIN TOGGLE -->
+<button class="admin-toggle" id="adminToggleBtn" onclick="onAdminToggle()">⚙ QUẢN TRỊ</button>
+
+<!-- ══════════ ADMIN PANEL ══════════ -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <div class="admin-title">⚙ LUMORA GALLERY — QUẢN TRỊ NỘI DUNG</div>
+    <div class="admin-header-right">
+      <span class="admin-user">● QUẢN TRỊ VIÊN</span>
+      <button class="admin-logout" onclick="doLogout()">Đăng Xuất</button>
+      <button class="admin-close" onclick="closeAdmin()">✕ ĐÓNG</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-label">MENU QUẢN TRỊ</div>
+      <button class="admin-nav-item active" onclick="switchAdmin('dashboard',this)">📊 Tổng Quan</button>
+      <button class="admin-nav-item" onclick="switchAdmin('paintings-list',this)">🖼 Quản Lý Tranh</button>
+      <button class="admin-nav-item" onclick="switchAdmin('painting-form',this)">＋ Thêm Tranh Mới</button>
+      <button class="admin-nav-item" onclick="switchAdmin('articles-list',this)">📰 Quản Lý Bài Viết</button>
+      <button class="admin-nav-item" onclick="switchAdmin('article-form',this)">＋ Thêm Bài Viết</button>
+      <button class="admin-nav-item" onclick="switchAdmin('team',this)">👥 Về Chúng Tôi</button>
+      <button class="admin-nav-item" onclick="switchAdmin('contact-edit',this)">📞 Thông Tin Liên Hệ</button>
+      <button class="admin-nav-item" onclick="switchAdmin('settings',this)">⚙ Cài Đặt</button>
+    </div>
+    <div style="flex:1;min-width:0;padding-bottom:3rem;">
+
+      <!-- DASHBOARD -->
+      <div class="admin-section active" id="admin-dashboard">
+        <div class="admin-section-title">TỔNG QUAN</div>
+        <div class="admin-stats">
+          <div class="admin-stat"><span class="admin-stat-num" id="statPaintings">0</span><div class="admin-stat-label">Tranh đang trưng bày</div></div>
+          <div class="admin-stat"><span class="admin-stat-num" id="statArticles">0</span><div class="admin-stat-label">Bài viết đã đăng</div></div>
+          <div class="admin-stat"><span class="admin-stat-num">5</span><div class="admin-stat-label">Trang web</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div style="padding:1.5rem;border:1px solid var(--border);background:var(--charcoal);cursor:pointer;" onclick="switchAdmin('paintings-list',null)">
+            <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--gold);margin-bottom:.5rem;">TRANH</div>
+            <div style="font-size:.9rem;color:var(--warm-gray);">Chỉnh sửa, xóa, thêm tranh mới vào Gallery</div>
+          </div>
+          <div style="padding:1.5rem;border:1px solid var(--border);background:var(--charcoal);cursor:pointer;" onclick="switchAdmin('articles-list',null)">
+            <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:var(--gold);margin-bottom:.5rem;">BÀI VIẾT</div>
+            <div style="font-size:.9rem;color:var(--warm-gray);">Chỉnh sửa, xóa, thêm bài viết mới</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAINTINGS LIST -->
+      <div class="admin-section" id="admin-paintings-list">
+        <div class="admin-section-title">DANH SÁCH TRANH</div>
+        <button class="admin-btn" onclick="switchAdmin('painting-form',null);resetPaintingForm()">＋ Thêm Tranh Mới</button>
+        <div class="admin-list" id="paintingsList"></div>
+      </div>
+
+      <!-- PAINTING FORM -->
+      <div class="admin-section" id="admin-painting-form">
+        <div class="admin-section-title" id="pFormTitle">THÊM TRANH MỚI</div>
+        <input type="hidden" id="pEditId">
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Tên Tác Phẩm *</label><input type="text" id="pTitle" placeholder="VD: Bình Minh Trên Sông Hương"></div>
+          <div class="admin-form-group"><label>Tên Họa Sĩ *</label><input type="text" id="pArtist" placeholder="VD: Nguyễn Trọng Khôi"></div>
+        </div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Thể Loại</label>
+            <select id="pType"><option>Sơn Dầu</option><option>Tranh Lụa</option><option>Màu Nước</option><option>Sơn Mài</option><option>Trừu Tượng</option><option>Phong Cảnh</option><option>Chân Dung</option><option>Khác</option></select>
+          </div>
+          <div class="admin-form-group"><label>Giá Bán *</label><input type="text" id="pPrice" placeholder="VD: 580,000,000 VNĐ hoặc Liên Hệ"></div>
+        </div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Kích Thước</label><input type="text" id="pSize" placeholder="VD: 80 x 120 cm"></div>
+          <div class="admin-form-group"><label>Năm Sáng Tác</label><input type="text" id="pYear" placeholder="VD: 2023"></div>
+        </div>
+        <div class="admin-form-group"><label>Ảnh Tranh</label>
+          <div class="img-upload-area" id="pImgDropArea">
+            <input type="file" id="pImgFile" accept="image/*" onchange="handlePaintingImg(this)">
+            <div class="img-upload-icon">🖼</div>
+            <div class="img-upload-text">CLICK HOẶC KÉO THẢ ẢNH VÀO ĐÂY</div>
+            <div class="img-upload-sub">JPG, PNG, WEBP — Tối đa 10MB</div>
+          </div>
+          <img id="pImgPreview" class="img-preview" src="" alt="Preview">
+          <div style="font-size:.8rem;color:var(--warm-gray);margin-top:.5rem;">Hoặc dán link ảnh trực tiếp:</div>
+          <input type="url" id="pImgUrl" placeholder="https://..." style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;margin-top:.5rem;" oninput="previewUrlImage(this,'pImgPreview')">
+        </div>
+        <div class="admin-form-group"><label>Câu Chuyện Tác Phẩm *</label><textarea id="pStory" style="min-height:140px;" placeholder="Mô tả câu chuyện, ý nghĩa, hoàn cảnh sáng tác của bức tranh..."></textarea></div>
+        <button class="admin-btn" onclick="savePainting()" id="pSaveBtn">✓ LƯU & ĐĂNG LÊN GALLERY</button>
+        <button class="admin-btn secondary" onclick="resetPaintingForm()">Làm Mới Form</button>
+        <button class="admin-btn secondary" onclick="switchAdmin('paintings-list',null)">← Quay Lại</button>
+        <div class="admin-msg" id="pMsg"></div>
+      </div>
+
+      <!-- ARTICLES LIST -->
+      <div class="admin-section" id="admin-articles-list">
+        <div class="admin-section-title">DANH SÁCH BÀI VIẾT</div>
+        <button class="admin-btn" onclick="switchAdmin('article-form',null);resetArticleForm()">＋ Thêm Bài Viết Mới</button>
+        <div class="admin-list" id="articlesList"></div>
+      </div>
+
+      <!-- ARTICLE FORM -->
+      <div class="admin-section" id="admin-article-form">
+        <div class="admin-section-title" id="aFormTitle">THÊM BÀI VIẾT MỚI</div>
+        <input type="hidden" id="aEditId">
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Tiêu Đề *</label><input type="text" id="aTitle" placeholder="VD: Nghệ Thuật Chọn Tranh Phòng Khách"></div>
+          <div class="admin-form-group"><label>Danh Mục</label>
+            <select id="aCat"><option value="noi-that">Không Gian & Nội Thất</option><option value="phong-thuy">Phong Thủy</option><option value="tam-ly">Tâm Lý & Cá Tính</option><option value="suu-tam">Sưu Tầm & Đầu Tư</option></select>
+          </div>
+        </div>
+        <div class="admin-form-group"><label>Nhãn Tag (hiển thị trên thẻ bài)</label><input type="text" id="aTag" placeholder="VD: Phong Thủy / Nội Thất / Sưu Tầm"></div>
+        <div class="admin-form-group"><label>Ảnh Minh Họa</label>
+          <div class="img-upload-area" id="aImgDropArea">
+            <input type="file" id="aImgFile" accept="image/*" onchange="handleArticleImg(this)">
+            <div class="img-upload-icon">📷</div>
+            <div class="img-upload-text">CLICK HOẶC KÉO THẢ ẢNH VÀO ĐÂY</div>
+            <div class="img-upload-sub">JPG, PNG, WEBP — Tối đa 10MB</div>
+          </div>
+          <img id="aImgPreview" class="img-preview" src="" alt="Preview">
+          <div style="font-size:.8rem;color:var(--warm-gray);margin-top:.5rem;">Hoặc dán link ảnh:</div>
+          <input type="url" id="aImgUrl" placeholder="https://..." style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;margin-top:.5rem;" oninput="previewUrlImage(this,'aImgPreview')">
+        </div>
+        <div class="admin-form-group"><label>Đoạn Tóm Tắt (hiển thị trên thẻ bài) *</label><textarea id="aSummary" style="min-height:80px;" placeholder="Viết 2-3 câu tóm tắt ngắn gọn..."></textarea></div>
+        <div class="admin-form-group"><label>Nội Dung Đầy Đủ *</label>
+          <div class="admin-tip" style="margin-bottom:.8rem;"><strong>💡 Mẹo định dạng:</strong> Mỗi đoạn văn cách nhau 1 dòng trống. Viết <strong>**Tiêu đề phần**</strong> để tạo tiêu đề con. Viết - Item để tạo danh sách.</div>
+          <textarea id="aContent" style="min-height:300px;" placeholder="Nhập nội dung đầy đủ của bài viết tại đây...&#10;&#10;Đoạn văn 1...&#10;&#10;Đoạn văn 2...&#10;&#10;**Tiêu đề phần**&#10;Nội dung phần...&#10;&#10;- Mục 1&#10;- Mục 2"></textarea>
+        </div>
+        <button class="admin-btn" onclick="saveArticle()" id="aSaveBtn">✓ LƯU & ĐĂNG BÀI VIẾT</button>
+        <button class="admin-btn secondary" onclick="resetArticleForm()">Làm Mới Form</button>
+        <button class="admin-btn secondary" onclick="switchAdmin('articles-list',null)">← Quay Lại</button>
+        <div class="admin-msg" id="aMsg"></div>
+      </div>
+
+      <!-- TEAM SECTION -->
+      <div class="admin-section" id="admin-team">
+        <div class="admin-section-title">QUẢN LÝ ĐỘI NGŨ — TRANG "VỀ CHÚNG TÔI"</div>
+        <button class="admin-btn" onclick="addTeamMember()">＋ Thêm Thành Viên Mới</button>
+        <div class="admin-list" id="teamList"></div>
+        <div id="teamFormWrap" style="display:none;margin-top:2rem;padding:2rem;border:1px solid var(--border);background:var(--charcoal);">
+          <div style="font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1.5rem;" id="tmFormTitle">THÊM THÀNH VIÊN</div>
+          <input type="hidden" id="tmEditId">
+          <div class="admin-form-group"><label>Ảnh Thành Viên</label>
+            <div class="img-upload-area" id="tmImgDropArea" style="max-width:300px;">
+              <input type="file" id="tmImgFile" accept="image/*" onchange="handleTeamImg(this)">
+              <div class="img-upload-icon">👤</div>
+              <div class="img-upload-text">CLICK HOẶC KÉO THẢ ẢNH</div>
+              <div class="img-upload-sub">Ảnh chân dung — JPG, PNG</div>
+            </div>
+            <img id="tmImgPreview" class="img-preview" style="max-width:180px;aspect-ratio:3/4;object-fit:cover;" src="" alt="">
+            <div style="font-size:.8rem;color:var(--warm-gray);margin-top:.5rem;">Hoặc dán link ảnh:</div>
+            <input type="url" id="tmImgUrl" placeholder="https://..." style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;margin-top:.5rem;transition:border-color .3s;" oninput="previewUrlImage(this,'tmImgPreview')">
+          </div>
+          <div class="admin-form-row">
+            <div class="admin-form-group"><label>Họ & Tên *</label><input type="text" id="tmName" placeholder="VD: Nguyễn Thị Lan"></div>
+            <div class="admin-form-group"><label>Vai Trò *</label><input type="text" id="tmRole" placeholder="VD: Curator & Giám Đốc Nghệ Thuật"></div>
+          </div>
+          <div class="admin-form-group"><label>Giới Thiệu</label><textarea id="tmBio" style="min-height:100px;" placeholder="Viết vài câu giới thiệu về thành viên này..."></textarea></div>
+          <button class="admin-btn" onclick="saveTeamMember()">✓ LƯU</button>
+          <button class="admin-btn secondary" onclick="document.getElementById('teamFormWrap').style.display='none'">Hủy</button>
+          <div class="admin-msg" id="tmMsg"></div>
+        </div>
+      </div>
+
+      <!-- CONTACT EDIT -->
+      <div class="admin-section" id="admin-contact-edit">
+        <div class="admin-section-title">CHỈNH SỬA THÔNG TIN LIÊN HỆ</div>
+        <div class="admin-tip"><strong>💡</strong> Thay đổi tại đây sẽ cập nhật ngay trên trang Liên Hệ.</div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Website</label><input type="text" id="ciWebsite" placeholder="lumoragallery.art"></div>
+          <div class="admin-form-group"><label>Email</label><input type="email" id="ciEmail" placeholder="gallery@lumoragallery.art"></div>
+        </div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Điện Thoại / Zalo</label><input type="text" id="ciPhone" placeholder="+84 (0) xxx xxx xxx"></div>
+          <div class="admin-form-group"><label>Facebook</label><input type="url" id="ciFacebook" placeholder="https://facebook.com/..."></div>
+        </div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Instagram</label><input type="url" id="ciInstagram" placeholder="https://instagram.com/..."></div>
+          <div class="admin-form-group"><label>Zalo (link)</label><input type="url" id="ciZalo" placeholder="https://zalo.me/..."></div>
+        </div>
+        <div class="admin-form-group"><label>Địa Chỉ</label><input type="text" id="ciAddress" placeholder="VD: Số 12 Đường Lê Lợi, Q.1, TP.HCM"></div>
+        <div class="admin-form-group"><label>Giờ Làm Việc</label><textarea id="ciHours" style="min-height:70px;" placeholder="VD: Thứ 2 – Thứ 7: 9:00 – 18:00&#10;Chủ Nhật: Theo Hẹn"></textarea></div>
+        <div class="admin-form-group"><label>Lời Giới Thiệu (hiển thị đầu trang Liên Hệ)</label><textarea id="ciIntro" style="min-height:80px;" placeholder="Chúng tôi sẵn sàng đồng hành..."></textarea></div>
+        <button class="admin-btn" onclick="saveContactInfo()">✓ LƯU THÔNG TIN LIÊN HỆ</button>
+        <div class="admin-msg" id="ciMsg"></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-section" id="admin-settings">
+        <div class="admin-section-title">XUẤT BẢN & CÀI ĐẶT</div>
+
+        <!-- PUBLISH BOX -->
+        <div style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:2px solid rgba(201,168,76,.45);padding:2rem;margin-bottom:2.5rem;">
+          <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.6rem;">🚀 CẬP NHẬT WEBSITE TỰ ĐỘNG</div>
+          <p style="font-size:.9rem;color:var(--warm-gray);line-height:1.8;margin-bottom:1.5rem;">Sửa nội dung → Nhấn 1 nút → Website cập nhật tự động. Không cần tải file, không upload thủ công.</p>
+
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,.3);justify-content:center;font-size:.8rem;">
+            <span style="color:var(--cream);">Sửa trong Admin</span>
+            <span style="color:var(--gold);">→</span>
+            <span style="color:var(--cream);">Push lên GitHub</span>
+            <span style="color:var(--gold);">→</span>
+            <span style="color:var(--cream);">Netlify deploy</span>
+            <span style="color:var(--gold);">→</span>
+            <span style="color:var(--gold-light);font-style:italic;">Live ~1 phút ✅</span>
+          </div>
+
+          <!-- TAB SWITCHER -->
+          <div style="display:flex;margin-bottom:0;border-bottom:1px solid rgba(201,168,76,.2);">
+            <button id="tabGH" onclick="switchPublishTab('gh')"
+              style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;padding:8px 18px;background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3);border-bottom:2px solid var(--gold);cursor:pointer;transition:all .3s;">
+              1. GITHUB TOKEN
+            </button>
+            <button id="tabNL" onclick="switchPublishTab('nl')"
+              style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;padding:8px 18px;background:none;color:var(--warm-gray);border:1px solid transparent;cursor:pointer;transition:all .3s;">
+              2. NETLIFY HOOK
+            </button>
+          </div>
+
+          <!-- GitHub Tab -->
+          <div id="tabContentGH" style="padding:1.2rem;background:rgba(0,0,0,.2);margin-bottom:1rem;">
+            <div style="font-size:.82rem;color:var(--warm-gray);line-height:1.9;margin-bottom:1rem;">
+              Vào <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--gold-light);">github.com/settings/tokens/new</a>
+              → Note: <code style="background:rgba(201,168,76,.1);padding:1px 5px;">Lumora</code>
+              · Expiration: <code style="background:rgba(201,168,76,.1);padding:1px 5px;">No expiration</code>
+              · Tick ✅ <strong style="color:var(--cream);">repo</strong> → Generate → Copy
+            </div>
+            <div class="admin-form-row" style="margin-bottom:.8rem;">
+              <div class="admin-form-group" style="margin-bottom:0;"><label>GitHub Username</label><input type="text" id="ghUser" placeholder="nganart88"></div>
+              <div class="admin-form-group" style="margin-bottom:0;"><label>Repository Name</label><input type="text" id="ghRepo" placeholder="lumoragallery"></div>
+            </div>
+            <div class="admin-form-group" style="margin-bottom:1rem;"><label>Personal Access Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div>
+            <button onclick="saveGithubConfig()" style="background:none;color:var(--gold);border:1px solid rgba(201,168,76,.4);font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;padding:9px 20px;cursor:pointer;" onmouseover="this.style.background='rgba(201,168,76,.08)'" onmouseout="this.style.background='none'">💾 LƯU GITHUB CONFIG</button>
+            <div id="ghConfigMsg" style="display:none;margin-top:.7rem;font-size:.85rem;color:var(--gold);"></div>
+          </div>
+
+          <!-- Netlify Tab -->
+          <div id="tabContentNL" style="display:none;padding:1.2rem;background:rgba(0,0,0,.2);margin-bottom:1rem;">
+            <div style="font-size:.82rem;color:var(--warm-gray);line-height:2;margin-bottom:1rem;">
+              <strong style="color:var(--cream);">1.</strong> Vào <a href="https://netlify.com" target="_blank" style="color:var(--gold-light);">netlify.com</a> → Sign up with GitHub → Add new site → Import from GitHub → chọn repo <code style="background:rgba(201,168,76,.1);padding:1px 5px;">lumoragallery</code><br>
+              <strong style="color:var(--cream);">2.</strong> Sau khi deploy → vào <strong style="color:var(--cream);">Site configuration → Build &amp; deploy → Build hooks</strong><br>
+              <strong style="color:var(--cream);">3.</strong> Nhấn <strong style="color:var(--cream);">Add build hook</strong> → Name: Lumora Admin → Save → Copy URL
+            </div>
+            <div class="admin-form-group" style="margin-bottom:1rem;"><label>Netlify Build Hook URL</label><input type="text" id="netlifyHook" placeholder="https://api.netlify.com/build_hooks/xxxxxxxxx"></div>
+            <button onclick="saveNetlifyConfig()" style="background:none;color:var(--gold);border:1px solid rgba(201,168,76,.4);font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;padding:9px 20px;cursor:pointer;" onmouseover="this.style.background='rgba(201,168,76,.08)'" onmouseout="this.style.background='none'">💾 LƯU NETLIFY CONFIG</button>
+            <div id="nlConfigMsg" style="display:none;margin-top:.7rem;font-size:.85rem;color:var(--gold);"></div>
+          </div>
+
+          <!-- PUBLISH BUTTON -->
+          <button onclick="publishSite()" id="publishBtn"
+            style="width:100%;background:var(--gold);color:var(--dark);font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.25em;border:none;padding:18px;cursor:pointer;transition:all .3s;font-weight:600;"
+            onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
+            ⬆ CẬP NHẬT WEBSITE NGAY
+          </button>
+          <div style="font-size:.72rem;color:rgba(107,97,87,.45);text-align:center;margin-top:.5rem;">Đẩy lên GitHub → Netlify tự deploy (nếu đã cấu hình cả 2 tab)</div>
+          <div id="publishMsg" style="margin-top:1rem;padding:.8rem 1.2rem;display:none;font-size:.9rem;border:1px solid;line-height:1.8;"></div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div style="margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border);">
+          <div style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:1.2rem;">🔐 ĐỔI MẬT KHẨU QUẢN TRỊ</div>
+          <div class="admin-tip"><strong>Mật khẩu mặc định:</strong> lumora2024 — Nên đổi ngay sau lần đầu đăng nhập.</div>
+          <div class="admin-form-group"><label>Mật Khẩu Hiện Tại</label><input type="password" id="oldPass" placeholder="Nhập mật khẩu hiện tại"></div>
+          <div class="admin-form-group"><label>Mật Khẩu Mới</label><input type="password" id="newPass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"></div>
+          <div class="admin-form-group"><label>Xác Nhận Mật Khẩu Mới</label><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu mới"></div>
+          <button class="admin-btn" onclick="changePassword()">✓ ĐỔI MẬT KHẨU</button>
+          <div class="admin-msg" id="passMsg"></div>
+        </div>
+
+        <!-- DATA RESET -->
+        <div>
+          <div style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:1.2rem;">🗄 DỮ LIỆU</div>
+          <div class="admin-tip"><strong>⚠</strong> Khi nhấn "Cập Nhật Website", toàn bộ dữ liệu được nhúng vào HTML và đẩy lên GitHub. Netlify tự deploy sau đó.</div>
+          <button class="admin-btn danger" onclick="if(confirm('Xóa toàn bộ dữ liệu? Hành động này không thể hoàn tác!'))clearAllData()">⚠ Xóa Toàn Bộ Dữ Liệu</button>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DEFAULT DATA
+// ═══════════════════════════════════════
+const DEFAULT_PAINTINGS = [
+  {id:'p1',title:'Bình Minh Trên Sông Hương',artist:'Nguyễn Trọng Khôi',type:'Sơn Dầu',price:'580,000,000 VNĐ',size:'80 x 120 cm',year:'1995',story:'Vẻ đẹp huyền ảo của buổi sáng sớm trên dòng sông Hương, Huế. Ánh bình minh vàng nhạt trải rộng trên mặt nước, phản chiếu những tán cây và bầu trời tím hồng. Họa sĩ đã dành cả mùa xuân năm 1995 sống bên bờ sông để ghi lại khoảnh khắc thiêng liêng khi ngày mới bắt đầu.',img:'',gradient:'linear-gradient(145deg,#3D2B1A,#8B5E3C 40%,#2A1F15)'},
+  {id:'p2',title:'Đêm Hà Nội Xưa',artist:'Lê Phổ',type:'Tranh Lụa',price:'1,200,000,000 VNĐ',size:'60 x 90 cm',year:'1962',story:'Một đêm Hà Nội cổ xưa trong ký ức của người nghệ sĩ — ánh đèn vàng le lói qua những ô cửa, bóng người đi trên phố vắng, và hương thơm của mùa thu ngàn xưa.',img:'',gradient:'linear-gradient(145deg,#1A1A3D,#3D5873 40%,#0D0D25)'},
+  {id:'p3',title:'Thiếu Nữ Áo Dài',artist:'Mai Trung Thứ',type:'Tranh Lụa',price:'950,000,000 VNĐ',size:'70 x 100 cm',year:'1958',story:'Hình ảnh người phụ nữ Việt Nam trong tà áo dài trắng tinh khôi — biểu tượng của vẻ đẹp truyền thống và phẩm hạnh. Những nét bút mềm mại gợi lên sự duyên dáng và nội tâm sâu sắc.',img:'',gradient:'linear-gradient(150deg,#2D1A2D,#6B3D5A 40%,#150A15)'},
+  {id:'p4',title:'Rừng Trầm Mặc',artist:'Đinh Quân',type:'Sơn Dầu',price:'720,000,000 VNĐ',size:'100 x 140 cm',year:'2010',story:'Khu rừng nguyên sinh trong bóng chiều tà — nơi ánh sáng và bóng tối giao thoa, tạo nên một không gian thiền định đầy chiều sâu.',img:'',gradient:'linear-gradient(120deg,#2D1A2D,#1A4A3A 40%,#150A15)'},
+  {id:'p5',title:'Hoàng Hôn Mekong',artist:'Trần Văn Cẩn',type:'Sơn Dầu',price:'480,000,000 VNĐ',size:'90 x 130 cm',year:'1987',story:'Dòng Mekong hùng vĩ trong ánh hoàng hôn đỏ rực. Họa sĩ đã dành cả mùa hè năm 1987 sống bên bờ sông để ghi lại vẻ đẹp vĩnh hằng này.',img:'',gradient:'linear-gradient(150deg,#3D1A08,#8B4513 45%,#C47A20 70%,#1A0A04)'},
+  {id:'p6',title:'Hương Sen',artist:'Nguyễn Phan Chánh',type:'Tranh Lụa',price:'890,000,000 VNĐ',size:'80 x 110 cm',year:'1945',story:'Hoa sen trên mặt hồ tĩnh lặng — biểu tượng của sự thanh khiết và giác ngộ. Tranh lụa với kỹ thuật truyền thống Việt Nam, được vẽ trên lụa tơ tằm thuần chất.',img:'',gradient:'linear-gradient(180deg,#050F10,#0A2520 30%,#1A4A3A 50%,#8AC8A0 65%,#F0A8B8 80%,#0A1A15)'}
+];
+
+const DEFAULT_ARTICLES = [
+  {id:'a1',tag:'Không Gian Sống',cat:'noi-that',title:'Vì Sao Một Ngôi Nhà Đẹp Vẫn Thiếu "Linh Hồn"?',summary:'Nhiều người đầu tư rất nhiều vào nội thất cao cấp nhưng khi bước vào vẫn cảm thấy lạnh và thiếu sức sống. Lý do không nằm ở vật liệu hay chi phí...',img:'',gradient:'linear-gradient(145deg,#1A1008,#3D2810 40%,#0A0806)',content:`<p>Nhiều người đầu tư rất nhiều vào nội thất: sofa cao cấp, đèn thiết kế, sàn gỗ đắt tiền. Không gian nhìn qua có thể rất "chuẩn chỉnh", nhưng khi bước vào lại tạo cảm giác lạnh, thiếu sức sống. Lý do thường không nằm ở vật liệu hay chi phí, mà nằm ở việc thiếu đi yếu tố mang tính cá nhân – đó chính là tranh.</p><p>Nội thất giúp tạo nên sự tiện nghi và cấu trúc không gian, nhưng tranh mới là yếu tố tạo nên chiều sâu cảm xúc. Một bức tranh không chỉ lấp đầy bức tường, mà còn mang theo câu chuyện, gu thẩm mỹ và góc nhìn của chủ nhà.</p><h4>TRANH LÀ "ĐIỂM NEO THỊ GIÁC"</h4><p>Tranh còn đóng vai trò như một "điểm neo thị giác". Khi bước vào phòng, ánh mắt con người luôn tìm một điểm dừng. Nếu không có tranh, không gian sẽ bị rời rạc và thiếu trọng tâm.</p><p>Vì vậy, nếu bạn cảm thấy ngôi nhà của mình vẫn chưa thực sự "thuộc về mình", hãy bắt đầu từ việc lựa chọn một bức tranh phù hợp. Không cần quá nhiều, chỉ cần đúng.</p>`},
+  {id:'a2',tag:'Tâm Lý & Cá Tính',cat:'tam-ly',title:'Tranh Phản Ánh Cá Tính — Rõ Hơn Cả Lời Nói',summary:'Không gian sống luôn là một "tuyên ngôn thầm lặng" về con người. Tranh treo tường là yếu tố thể hiện rõ nhất cá tính của gia chủ.',img:'',gradient:'linear-gradient(150deg,#0A1020,#1A2A3A 50%,#060C14)',content:`<p>Không gian sống luôn là một dạng "tuyên ngôn thầm lặng" về con người. Trong đó, tranh treo tường là yếu tố thể hiện rõ nhất cá tính của gia chủ.</p><h4>TRANH NÓI LÊN TÍNH CÁCH</h4><p>Người yêu thích tranh hiện thực cổ điển thường có xu hướng ổn định, đề cao giá trị truyền thống. Người chọn tranh trừu tượng thường cởi mở, thích khám phá. Tranh chân dung thể hiện sự quan tâm đến con người, tranh phong cảnh cho thấy nhu cầu cân bằng và thư giãn.</p><p>Chọn tranh không đơn thuần là chọn vật trang trí. Đó là cách bạn định hình bản thân trong không gian sống của mình.</p>`},
+  {id:'a3',tag:'Phòng Khách',cat:'noi-that',title:'Phòng Khách — Nơi Tranh Quyết Định Ấn Tượng Đầu Tiên',summary:'Ánh nhìn đầu tiên khi bước vào phòng khách thường không dừng ở bộ sofa, mà dừng ở bức tường chính. Nếu bức tường đó trống, toàn bộ không gian trở nên nhạt nhòa...',img:'',gradient:'linear-gradient(135deg,#1A0D05,#4A2D10 45%,#C8901A 65%,#1A0D05)',content:`<p>Phòng khách là không gian giao tiếp chính của ngôi nhà — nơi khách ghé thăm, đối tác trò chuyện, và gia chủ thể hiện gu thẩm mỹ rõ ràng nhất.</p><p>Thực tế, ánh nhìn đầu tiên khi bước vào phòng khách thường không dừng ở bộ sofa, mà dừng ở bức tường chính. Nếu bức tường đó trống, toàn bộ không gian trở nên nhạt nhòa dù nội thất có giá trị cao.</p><h4>CHỌN TRANH PHÙ HỢP PHONG CÁCH</h4><p>Không gian hiện đại: tranh tối giản hoặc trừu tượng. Không gian cổ điển: tranh hiện thực, sơn dầu. Với nhà Việt Nam, chủ đề hoa sen, thiếu nữ, đời sống thường nhật tạo sự gần gũi và chiều sâu.</p>`},
+  {id:'a4',tag:'Phòng Ngủ',cat:'noi-that',title:'Tranh Trong Phòng Ngủ — Ảnh Hưởng Trực Tiếp Đến Tâm Trạng',summary:'Phòng ngủ là không gian riêng tư nhất trong nhà. Mọi yếu tố, kể cả tranh, đều tác động trực tiếp đến tâm lý và chất lượng giấc ngủ.',img:'',gradient:'linear-gradient(160deg,#0A0F18,#1A2535 50%,#354A60 70%,#080C12)',content:`<p>Phòng ngủ là không gian riêng tư nhất trong nhà, nơi con người nghỉ ngơi và tái tạo năng lượng. Mọi yếu tố, kể cả tranh, đều tác động trực tiếp đến tâm lý.</p><h4>KHÔNG NÊN VÀ NÊN</h4><p><strong>Không nên:</strong> Tranh màu sắc quá gắt, bố cục căng thẳng, nội dung nặng nề — chúng khiến tâm trí khó thư giãn.<br><strong>Nên chọn:</strong> Tông màu dịu, ánh sáng mềm, chủ đề nhẹ nhàng như thiên nhiên, tĩnh vật. Tranh trong phòng ngủ không cần nổi bật — nó cần âm thầm hỗ trợ trạng thái tinh thần mỗi ngày.</p>`},
+  {id:'a5',tag:'Phòng Làm Việc',cat:'noi-that',title:'Tranh Trong Phòng Làm Việc — Công Cụ Hỗ Trợ Tư Duy',summary:'Phòng làm việc cần sự tập trung. Việc chọn tranh không nên thiên về trang trí đơn thuần, mà cần hướng đến chức năng hỗ trợ tư duy.',img:'',gradient:'linear-gradient(140deg,#0A1508,#1A3015 50%,#2A4A20 70%,#080F06)',content:`<p>Phòng làm việc cần sự tập trung và rõ ràng. Việc chọn tranh không nên thiên về trang trí, mà hướng đến hỗ trợ tư duy.</p><h4>LOẠI TRANH PHÙ HỢP</h4><p>Tranh kiến trúc, không gian mở, bố cục có hướng nhìn xa — kích thích tư duy logic và tầm nhìn dài hạn. Tranh tối giản — giảm nhiễu thị giác, giữ tập trung.</p><p>Tránh tranh quá rối, nhiều chi tiết. Chỉ một bức đúng vị trí, đúng nội dung là đủ tạo ra sự khác biệt.</p>`},
+  {id:'a6',tag:'Cách Treo Tranh',cat:'noi-that',title:'Treo Tranh Đúng — Yếu Tố Quyết Định "Đẳng Cấp" Của Không Gian',summary:'Tranh đẹp nhưng không gian vẫn không đẹp — nguyên nhân thường là cách treo và tỷ lệ sai. Một lỗi phổ biến là treo tranh quá cao hoặc quá nhỏ so với tường.',img:'',gradient:'linear-gradient(130deg,#1A1205,#4A3810 45%,#C0A030 60%,#1A1205)',content:`<p>Không ít trường hợp, tranh đẹp nhưng không gian vẫn không đẹp. Nguyên nhân nằm ở cách treo và tỷ lệ sai.</p><h4>LỖI PHỔ BIẾN</h4><p>Treo tranh quá cao hoặc quá nhỏ so với diện tích tường. Khung không phù hợp. Màu tranh không liên kết với nội thất.</p><h4>NGUYÊN TẮC CƠ BẢN</h4><p>Tranh nên ở tầm mắt. Tường lớn — tranh lớn hoặc bộ tranh có bố cục rõ. Không gian nhỏ — tranh tinh giản, tránh tạo cảm giác chật chội.</p>`},
+  {id:'a7',tag:'Phong Thủy',cat:'phong-thuy',title:'Chọn Tranh Theo Phong Thủy — Đúng Hay Chỉ Là Cảm Giác An Tâm?',summary:'Phong thủy trong tranh không chỉ là quy tắc "hợp mệnh hợp tuổi", mà là sự cân bằng năng lượng trong không gian sống.',img:'',gradient:'linear-gradient(155deg,#100518,#2A1040 50%,#501880 65%,#0A0310)',content:`<p>Phong thủy trong tranh không chỉ là quy tắc "hợp mệnh hợp tuổi", mà là sự cân bằng năng lượng trong không gian sống.</p><h4>NĂNG LƯỢNG TRONG TRANH</h4><p><strong>Tranh nước</strong> (biển, sông, thác): tạo cảm giác lưu thông, linh hoạt, phát triển.<br><strong>Tranh núi</strong>, kiến trúc vững chắc: tạo sự ổn định, chắc chắn trong sự nghiệp.</p><h4>PHONG THỦY ĐÚNG NGHĨA</h4><p>Hài hòa giữa ba yếu tố: <em>con người – không gian – cảm xúc</em>. Một bức tranh tốt vừa phù hợp về năng lượng, vừa khiến bạn thoải mái khi nhìn vào mỗi ngày.</p>`},
+  {id:'a8',tag:'Ngũ Hành',cat:'phong-thuy',title:'Chọn Tranh Theo Mệnh — Nên Hiểu Như Thế Nào Cho Đúng?',summary:'Kim · Mộc · Thủy · Hỏa · Thổ — ngũ hành là điểm tham khảo, không phải quy tắc cứng. Một người không thể bị đóng khung trong một mệnh duy nhất suốt đời.',img:'',gradient:'linear-gradient(145deg,#0A1A08,#183010 45%,#408028 60%,#0A1408)',content:`<p>Ngũ hành (Kim–Mộc–Thủy–Hỏa–Thổ) là điểm tham khảo, không phải quy tắc cứng.</p><h4>HƯỚNG DẪN NGŨ HÀNH</h4><ul><li><strong>Mệnh Thủy:</strong> Tranh nước, màu xanh lam</li><li><strong>Mệnh Mộc:</strong> Tranh cây cối, màu xanh lá</li><li><strong>Mệnh Hỏa:</strong> Màu nóng, đỏ, cam rực</li><li><strong>Mệnh Thổ:</strong> Màu đất, cảnh núi, nâu vàng</li><li><strong>Mệnh Kim:</strong> Tông sáng, ánh kim, trắng bạc</li></ul><p>Cách tiếp cận đúng: chọn tranh phù hợp với <em>trạng thái bạn muốn hướng tới</em>, không chỉ đơn thuần "hợp mệnh".</p>`},
+  {id:'a9',tag:'Tâm Lý Nghề Nghiệp',cat:'tam-ly',title:'Người Làm Nghề Khác Nhau — Gu Tranh Cũng Khác Nhau',summary:'Gu tranh phản ánh cách một người nhìn thế giới, liên quan chặt chẽ đến nghề nghiệp. Doanh nhân, nghệ sĩ, kỹ sư — mỗi người có xu hướng thẩm mỹ riêng.',img:'',gradient:'linear-gradient(140deg,#1A0808,#401010 45%,#800A0A 60%,#100404)',content:`<p>Gu tranh phản ánh cách một người nhìn thế giới, liên quan chặt chẽ đến nghề nghiệp.</p><h4>XU HƯỚNG THEO NGHỀ</h4><ul><li><strong>Kinh doanh:</strong> Tranh bố cục rõ, chiều sâu, thể hiện phát triển</li><li><strong>Sáng tạo (nghệ sĩ, designer):</strong> Trừu tượng, phá cách</li><li><strong>Kỹ thuật:</strong> Cấu trúc chặt chẽ, logic</li><li><strong>Giáo dục, nghiên cứu:</strong> Tĩnh, chiều sâu suy ngẫm</li></ul><p>Một bức tranh phù hợp với tư duy người sở hữu sẽ trở thành "một phần của họ", không chỉ là vật trang trí.</p>`},
+  {id:'a10',tag:'Sưu Tầm',cat:'suu-tam',title:'Từ Người Mua Tranh Đến Người Sưu Tầm — Sự Khác Biệt Nằm Ở Đâu?',summary:'Không phải ai mua tranh cũng là người sưu tầm. Người sưu tầm có cách nhìn dài hạn — quan tâm đến tác giả, phong cách, tính nhất quán và giá trị theo thời gian.',img:'',gradient:'linear-gradient(150deg,#080A1A,#141828 45%,#282E50 60%,#060810)',content:`<p>Không phải ai mua tranh cũng là người sưu tầm. Người mua tranh chọn theo cảm xúc nhất thời. Người sưu tầm có cách nhìn dài hạn hơn.</p><h4>ĐẶC ĐIỂM NGƯỜI SƯU TẦM</h4><ul><li>Quan tâm đến <strong>tác giả</strong> và lịch sử sáng tác</li><li>Hiểu <strong>phong cách</strong> và trường phái</li><li>Xây dựng <strong>tính nhất quán</strong> trong bộ sưu tập</li><li>Chú trọng <strong>giá trị theo thời gian</strong></li></ul><p>Hành trình từ người mua sang người sưu tầm thường bắt đầu từ một bức tranh đúng.</p>`},
+  {id:'a11',tag:'Đẳng Cấp',cat:'suu-tam',title:'Tranh Và Đẳng Cấp — Điều Không Thể Mua Bằng Tiền Đơn Thuần',summary:'Hai căn nhà cùng mức đầu tư, một căn trông có gu, một căn không. Đẳng cấp không nằm ở tranh đắt tiền, mà nằm ở việc biết chọn đúng và đặt đúng chỗ.',img:'',gradient:'linear-gradient(135deg,#1A1205,#3D2E10 45%,#C9A84C 65%,#1A1205)',content:`<p>Hai căn nhà cùng mức đầu tư, một căn trông "có gu", một căn không. Sự khác biệt nằm ở những chi tiết mang tính cá nhân — và tranh là một trong số đó.</p><h4>MỘT BỨC TRANH TỐT CẦN</h4><ul><li>Phù hợp với không gian tổng thể</li><li>Chất lượng thẩm mỹ thực sự</li><li>Chiều sâu — cảm xúc hay ý niệm</li></ul><p>Đẳng cấp không nằm ở tranh đắt tiền, mà nằm ở việc biết chọn đúng và đặt đúng chỗ. Đó là điều cần thời gian tích lũy.</p>`},
+  {id:'a12',tag:'Lối Sống',cat:'tam-ly',title:'Khi Tranh Trở Thành Một Phần Của Đời Sống',summary:'Bạn quen với ánh sáng trong tranh vào buổi sáng. Bạn nhận ra cảm xúc mình thay đổi theo từng giai đoạn... và bức tranh vẫn ở đó.',img:'',gradient:'linear-gradient(160deg,#060810,#0E1428 45%,#1A2040 60%,#040608)',content:`<p>Ở giai đoạn đầu, người ta treo tranh để làm đẹp không gian. Nhưng sau một thời gian, nếu chọn đúng, tranh sẽ không còn là "vật treo tường".</p><p>Bạn quen với ánh sáng trong tranh vào buổi sáng. Bạn nhìn thấy chi tiết quen thuộc khi đi ngang qua. Bạn nhận ra cảm xúc mình thay đổi theo từng giai đoạn… và bức tranh vẫn ở đó.</p><p>Đó là lúc tranh không còn là thứ để "xem", mà là thứ để <em>"sống cùng"</em>.</p>`},
+  {id:'a13',tag:'Quan Điểm',cat:'noi-that',title:'Người Mua Nội Thất… Và Người Mua Tranh — Khác Nhau Ở Đâu?',summary:'Nội thất hoàn thiện không gian. Tranh hoàn thiện cá tính của không gian. Tranh không phải bước cuối cùng — nó là bước quyết định.',img:'',gradient:'linear-gradient(145deg,#1A0D04,#3A1E08 50%,#7A4010 65%,#1A0D04)',content:`<p>Nội thất hoàn thiện không gian. Tranh hoàn thiện <em>cá tính</em> của không gian.</p><ul><li><strong>Người mua nội thất</strong> → Hoàn thiện không gian</li><li><strong>Người mua tranh</strong> → Hoàn thiện cá tính không gian</li></ul><p>Chỉ cần một bức tranh đúng, toàn bộ không gian có "trục xoay" rõ ràng — nơi ánh nhìn dừng lại, nơi cảm xúc bắt đầu. Tranh không phải bước cuối cùng — nó là bước quyết định.</p>`},
+  {id:'a14',tag:'Lựa Chọn Đúng',cat:'noi-that',title:'Vì Sao Nhiều Người Treo Tranh… Nhưng Không Tạo Được Giá Trị?',summary:'Rất nhiều không gian treo tranh nhưng vẫn không tạo được ấn tượng. Tranh không liên quan nội thất, thiếu chiều sâu, không phản ánh cá tính chủ nhân...',img:'',gradient:'linear-gradient(155deg,#0F0A04,#2A1E08 45%,#5A4015 60%,#0F0A04)',content:`<p>Rất nhiều không gian treo tranh, nhưng vẫn không tạo được ấn tượng. Ba nguyên nhân chính:</p><ul><li>Tranh không liên quan đến tổng thể nội thất</li><li>Tranh thiếu chiều sâu (chỉ đẹp bề mặt)</li><li>Tranh không phản ánh cá tính người sở hữu</li></ul><p>Câu hỏi quan trọng nhất: <em>"Bức tranh này có làm không gian của bạn khác đi không?"</em></p>`},
+  {id:'a15',tag:'Khách Hàng Cao Cấp',cat:'suu-tam',title:'Khách Hàng Cao Cấp Không Mua Tranh — Họ Mua Cảm Giác Sở Hữu',summary:'Ở phân khúc cao cấp, quyết định mua không đến từ giá mà đến từ cảm giác: "Bức tranh này có thuộc về mình không?"',img:'',gradient:'linear-gradient(140deg,#181208,#3A2E10 45%,#C9A84C 60%,#181208)',content:`<p>Ở phân khúc cao cấp, quyết định mua không đến từ giá — nó đến từ cảm giác: <em>"Bức tranh này có thuộc về mình không?"</em></p><p>Khi có sự kết nối, việc mua trở nên rất tự nhiên. Ngược lại, dù tranh đẹp đến đâu, quyết định cũng sẽ bị trì hoãn nếu không có cảm giác đó.</p><p>Vai trò của gallery: không chỉ bán tranh, mà giúp khách hàng <em>nhìn thấy mình</em> trong bức tranh đó.</p>`},
+  {id:'a16',tag:'Thiết Kế',cat:'noi-that',title:'Một Bức Tranh Đúng Có Thể Thay Đổi Giá Trị Cả Không Gian',summary:'Điểm nhấn quyết định cảm nhận tổng thể. Tranh chính là yếu tố dễ tạo điểm nhấn nhất — đó là lý do không gian cao cấp luôn chọn tranh rất kỹ.',img:'',gradient:'linear-gradient(135deg,#0A0808,#201808 45%,#504020 60%,#0A0808)',content:`<p>Nguyên lý cốt lõi: <em>điểm nhấn quyết định cảm nhận tổng thể</em>. Tranh chính là yếu tố dễ tạo điểm nhấn nhất.</p><p>Một bức tranh lớn, đúng vị trí, nội dung phù hợp có thể làm nổi bật toàn bộ phòng khách, tạo cảm giác sang trọng và cho thấy "ý đồ thiết kế" rõ ràng.</p><p>Đó là lý do các không gian cao cấp (villa, showroom, khách sạn) luôn chọn tranh rất kỹ.</p>`},
+  {id:'a17',tag:'Gu Thẩm Mỹ',cat:'suu-tam',title:'Khi Bạn Bắt Đầu Chọn Tranh Kỹ Hơn… Bạn Đã Bước Sang Level Khác',summary:'Từ "thấy đẹp thì mua" đến những câu hỏi: "Bức này có hợp mình không? Có đủ lâu để không thấy chán không?" — đó là lúc gu thẩm mỹ hình thành.',img:'',gradient:'linear-gradient(150deg,#080A18,#141828 45%,#30385A 60%,#060810)',content:`<p>Từ "thấy đẹp thì mua" đến những câu hỏi: <em>"Bức này có hợp mình không? Có đủ lâu để không thấy chán không?"</em> — đó là lúc gu thẩm mỹ hình thành.</p><p>Khi đó, chọn tranh không còn là mua sắm, mà trở thành một quá trình chọn lọc. Người có gu không cần nhiều tranh — họ chỉ cần những bức <em>thực sự đáng giữ lại</em>.</p>`},
+  {id:'a18',tag:'Triết Lý',cat:'suu-tam',title:'Bạn Không Cần Nhiều Tranh — Bạn Cần Một Bức Đúng',summary:'Cố gắng lấp đầy không gian bằng nhiều tranh nhỏ thường khiến tổng thể bị rối. Một bức tranh đủ mạnh có thể đứng một mình trên cả bức tường lớn.',img:'',gradient:'linear-gradient(145deg,#1A1205,#3A2E10 45%,#C9A84C 60%,#1A1205)',content:`<p>Cố gắng "lấp đầy" không gian bằng nhiều tranh nhỏ thường khiến tổng thể bị rối và thiếu trọng tâm.</p><p>Các không gian được thiết kế tốt làm điều ngược lại: <strong>giảm số lượng — tăng chất lượng</strong>. Một bức tranh đủ mạnh có thể đứng một mình trên cả bức tường lớn.</p><p>Giá trị không nằm ở số lượng — mà nằm ở <em>lựa chọn đúng</em>.</p>`}
+];
+
+// ═══════════════════════════════════════
+// STATE & STORAGE
+// ═══════════════════════════════════════
+let isAdmin = false;
+let ADMIN_PASS = localStorage.getItem('lg_pass') || 'lumora2024';
+let paintings = [];
+let articles = [];
+let teamMembers = [];
+let contactInfo = {};
+
+const DEFAULT_TEAM = [
+  {id:'t1',name:'Người Sáng Lập',role:'Curator & Giám Đốc Nghệ Thuật',bio:'Với hơn 15 năm trong ngành nghệ thuật, người sáng lập Lumora Gallery đã xây dựng một mạng lưới rộng lớn các họa sĩ và nhà sưu tập tại Việt Nam và quốc tế.',img:'',initials:'L'},
+  {id:'t2',name:'Chuyên Gia Phong Thủy',role:'Tư Vấn Nội Thất & Phong Thủy',bio:'Kết hợp kiến thức phong thủy truyền thống với thiết kế nội thất hiện đại, giúp mỗi bức tranh tìm được vị trí hoàn hảo trong không gian sống.',img:'',initials:'A'},
+  {id:'t3',name:'Chuyên Gia Thẩm Định',role:'Giám Định & Xác Thực Tác Phẩm',bio:'Tốt nghiệp khoa Lịch Sử Nghệ Thuật tại Sorbonne, đảm bảo mọi tác phẩm đạt tiêu chuẩn xác thực nghiêm ngặt nhất.',img:'',initials:'R'}
+];
+const DEFAULT_CONTACT = {
+  website:'lumoragallery.art',email:'gallery@lumoragallery.art',
+  phone:'+84 (0) xxx xxx xxx',address:'',hours:'Thứ 2 – Thứ 7: 9:00 – 18:00\nChủ Nhật: Theo Hẹn',
+  intro:'Chúng tôi sẵn sàng đồng hành cùng bạn trong hành trình tìm kiếm tác phẩm nghệ thuật hoàn hảo.',
+  facebook:'',instagram:'',zalo:''
+};
+
+function loadData() {
+  const sp = localStorage.getItem('lg_paintings_v2');
+  const sa = localStorage.getItem('lg_articles_v2');
+  const st = localStorage.getItem('lg_team_v1');
+  const sc = localStorage.getItem('lg_contact_v1');
+  paintings = sp ? JSON.parse(sp) : JSON.parse(JSON.stringify(DEFAULT_PAINTINGS));
+  articles = sa ? JSON.parse(sa) : JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
+  teamMembers = st ? JSON.parse(st) : JSON.parse(JSON.stringify(DEFAULT_TEAM));
+  contactInfo = sc ? JSON.parse(sc) : JSON.parse(JSON.stringify(DEFAULT_CONTACT));
+  if (!sp) saveData();
+}
+function saveData() {
+  localStorage.setItem('lg_paintings_v2', JSON.stringify(paintings));
+  localStorage.setItem('lg_articles_v2', JSON.stringify(articles));
+  localStorage.setItem('lg_team_v1', JSON.stringify(teamMembers));
+  localStorage.setItem('lg_contact_v1', JSON.stringify(contactInfo));
+}
+function genId(prefix) { return prefix + Date.now() + Math.random().toString(36).slice(2,6); }
+
+// ═══════════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+});
+document.addEventListener('mouseover', e => {
+  if(e.target.matches('a,button,input,select,textarea,.feat-card,.gallery-item,.article-card,[onclick]')){
+    ring.style.width='60px';ring.style.height='60px';ring.style.opacity='1';
+  }
+});
+document.addEventListener('mouseout', e => {
+  if(e.target.matches('a,button,input,select,textarea,.feat-card,.gallery-item,.article-card,[onclick]')){
+    ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.6';
+  }
+});
+
+// ═══════════════════════════════════════
+// NAV & PAGES
+// ═══════════════════════════════════════
+window.addEventListener('scroll', () => document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50));
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════
+// RENDER PAINTINGS
+// ═══════════════════════════════════════
+function renderGallery() {
+  const masonry = document.getElementById('galleryMasonry');
+  masonry.innerHTML = '';
+  const ratios = ['3/4','4/3','1/1','3/4','2/3','4/3'];
+  paintings.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.dataset.type = p.type;
+    div.onclick = () => openLightbox(p);
+    const imgContent = p.img
+      ? `<img class="g-paint-img" src="${p.img}" style="aspect-ratio:${ratios[i%6]};width:100%;" loading="lazy">`
+      : `<div class="g-paint" style="background:${p.gradient};aspect-ratio:${ratios[i%6]};"></div>`;
+    div.innerHTML = `${imgContent}
+      <div class="g-caption">
+        <span class="g-num">LG — ${String(i+1).padStart(3,'0')}</span>
+        <div class="g-title">${p.title}</div>
+        <div class="g-artist">${p.artist} · ${p.type}</div>
+        <div class="g-story">"${p.story.substring(0,90)}..."</div>
+        <div class="g-footer">
+          <span class="g-price">${p.price}</span>
+          <button class="g-inquire" onclick="event.stopPropagation();showPage('contact');">Hỏi Mua</button>
+        </div>
+      </div>`;
+    masonry.appendChild(div);
+  });
+  updateStats();
+}
+
+function renderFeatured() {
+  const grid = document.getElementById('featuredGrid');
+  grid.innerHTML = '';
+  const featured = paintings.slice(0,4);
+  const ratios = ['3/4','2/3','3/4','4/5'];
+  featured.forEach((p,i) => {
+    const div = document.createElement('div');
+    div.className = 'feat-card';
+    div.onclick = () => { showPage('gallery'); setTimeout(() => openLightbox(p), 100); };
+    const imgContent = p.img
+      ? `<img class="feat-img" src="${p.img}" style="aspect-ratio:${ratios[i]};width:100%;">`
+      : `<div class="feat-img" style="background:${p.gradient};aspect-ratio:${ratios[i]};"></div>`;
+    div.innerHTML = `${imgContent}
+      <div class="feat-overlay">
+        <span class="feat-number">LG — ${String(i+1).padStart(3,'0')}</span>
+        <div class="feat-title">${p.title}</div>
+        <div class="feat-artist">${p.artist}</div>
+        <div class="feat-price">${p.price}</div>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function filterGallery(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#galleryMasonry .gallery-item').forEach(el => {
+    el.style.display = (type === 'all' || el.dataset.type === type) ? '' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════
+function openLightbox(p) {
+  document.getElementById('lbTitle').textContent = p.title;
+  document.getElementById('lbArtist').textContent = p.artist + ' · ' + p.type + (p.year ? ' · ' + p.year : '');
+  document.getElementById('lbStory').textContent = p.story;
+  document.getElementById('lbPrice').textContent = p.price;
+  const wrap = document.getElementById('lbImgWrap');
+  if (p.img) {
+    wrap.innerHTML = `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">`;
+  } else {
+    wrap.innerHTML = `<div class="lb-placeholder" style="background:${p.gradient};min-height:400px;"></div>`;
+  }
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// ═══════════════════════════════════════
+// RENDER ARTICLES
+// ═══════════════════════════════════════
+function renderArticles() {
+  const masonry = document.getElementById('articlesMasonry');
+  masonry.innerHTML = '';
+  articles.forEach((a, i) => {
+    const div = document.createElement('div');
+    div.className = 'article-card';
+    div.dataset.cat = a.cat;
+    div.onclick = () => openArticle(i);
+    const imgContent = a.img
+      ? `<div class="article-thumb"><img src="${a.img}" alt="${a.title}"></div>`
+      : `<div class="article-thumb"><div class="article-thumb-div" style="background:${a.gradient};"></div></div>`;
+    div.innerHTML = `${imgContent}
+      <div class="article-body">
+        <span class="article-tag">${a.tag}</span>
+        <h3>${a.title}</h3>
+        <p>${a.summary}</p>
+        <button class="article-read">ĐỌC BÀI VIẾT →</button>
+      </div>`;
+    masonry.appendChild(div);
+  });
+  updateStats();
+}
+
+function filterDecor(cat, btn) {
+  document.querySelectorAll('.decor-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#articlesMasonry .article-card').forEach(el => {
+    el.style.display = (cat === 'all' || el.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+function openArticle(idx) {
+  const a = articles[idx]; if (!a) return;
+  document.getElementById('amTag').textContent = a.tag;
+  document.getElementById('amTitle').textContent = a.title;
+  document.getElementById('amContent').innerHTML = a.content;
+  const imgDiv = document.getElementById('amImg');
+  imgDiv.style.background = a.img ? '' : a.gradient;
+  imgDiv.style.minHeight = '300px';
+  imgDiv.innerHTML = a.img ? `<img src="${a.img}" style="width:100%;height:100%;object-fit:cover;">` : '';
+  document.getElementById('articleModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeArticle() {
+  document.getElementById('articleModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════
+// ADMIN AUTH
+// ═══════════════════════════════════════
+function onAdminToggle() {
+  if (isAdmin) { openAdmin(); }
+  else { document.getElementById('loginModal').classList.add('open'); document.getElementById('loginPass').focus(); }
+}
+function doLogin() {
+  const pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    isAdmin = true;
+    document.getElementById('loginModal').classList.remove('open');
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('adminToggleBtn').textContent = '⚙ QUẢN TRỊ ●';
+    document.getElementById('adminToggleBtn').classList.add('logged-in');
+    document.getElementById('editIndicator').classList.add('show');
+    openAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+function doLogout() {
+  isAdmin = false;
+  closeAdmin();
+  document.getElementById('adminToggleBtn').textContent = '⚙ QUẢN TRỊ';
+  document.getElementById('adminToggleBtn').classList.remove('logged-in');
+  document.getElementById('editIndicator').classList.remove('show');
+}
+function closeLogin() {
+  document.getElementById('loginModal').classList.remove('open');
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+function changePassword() {
+  const old = document.getElementById('oldPass').value;
+  const nw = document.getElementById('newPass').value;
+  const cf = document.getElementById('confirmPass').value;
+  const msg = document.getElementById('passMsg');
+  if (old !== ADMIN_PASS) { showAdminMsg('passMsg','⚠ Mật khẩu hiện tại không đúng'); return; }
+  if (nw.length < 6) { showAdminMsg('passMsg','⚠ Mật khẩu mới tối thiểu 6 ký tự'); return; }
+  if (nw !== cf) { showAdminMsg('passMsg','⚠ Xác nhận mật khẩu không khớp'); return; }
+  ADMIN_PASS = nw;
+  localStorage.setItem('lg_pass', nw);
+  document.getElementById('oldPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';
+  showAdminMsg('passMsg','✓ Đổi mật khẩu thành công!');
+}
+function clearAllData() {
+  ['lg_paintings_v2','lg_articles_v2','lg_team_v1','lg_contact_v1'].forEach(k => localStorage.removeItem(k));
+  loadData(); renderGallery(); renderFeatured(); renderArticles(); renderTeam(); renderContactInfo();
+  renderPaintingsList(); renderArticlesList(); renderTeamList(); loadContactForm();
+  closeAdmin(); doLogout();
+}
+
+// ═══════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════
+function openAdmin() {
+  document.getElementById('adminPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderPaintingsList();
+  renderArticlesList();
+  renderTeamList();
+  loadContactForm();
+  loadGithubConfig();
+  updateStats();
+}
+function closeAdmin() {
+  document.getElementById('adminPanel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function switchAdmin(id, btn) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('admin-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+function updateStats() {
+  document.getElementById('statPaintings').textContent = paintings.length;
+  document.getElementById('statArticles').textContent = articles.length;
+}
+
+// ═══════════════════════════════════════
+// IMAGE HANDLING
+// ═══════════════════════════════════════
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+async function handlePaintingImg(input) {
+  if (!input.files[0]) return;
+  const b64 = await fileToBase64(input.files[0]);
+  document.getElementById('pImgPreview').src = b64;
+  document.getElementById('pImgPreview').classList.add('show');
+  document.getElementById('pImgUrl').value = '';
+}
+async function handleArticleImg(input) {
+  if (!input.files[0]) return;
+  const b64 = await fileToBase64(input.files[0]);
+  document.getElementById('aImgPreview').src = b64;
+  document.getElementById('aImgPreview').classList.add('show');
+  document.getElementById('aImgUrl').value = '';
+}
+function previewUrlImage(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (input.value) { preview.src = input.value; preview.classList.add('show'); }
+  else { preview.classList.remove('show'); }
+}
+function getImageValue(fileInputId, urlInputId, previewId) {
+  const urlVal = document.getElementById(urlInputId).value.trim();
+  if (urlVal) return urlVal;
+  const preview = document.getElementById(previewId);
+  if (preview.classList.contains('show') && preview.src && !preview.src.includes('data:')) return preview.src;
+  if (preview.classList.contains('show') && preview.src.startsWith('data:')) return preview.src;
+  return '';
+}
+
+// ═══════════════════════════════════════
+// PAINTING CRUD
+// ═══════════════════════════════════════
+function renderPaintingsList() {
+  const list = document.getElementById('paintingsList');
+  if (!paintings.length) { list.innerHTML = '<div style="font-size:.9rem;color:var(--warm-gray);padding:1rem;font-style:italic;">Chưa có tranh nào.</div>'; return; }
+  list.innerHTML = paintings.map((p,i) => `
+    <div class="admin-list-item">
+      ${p.img ? `<img class="admin-list-item-thumb" src="${p.img}" alt="">` : `<div class="admin-list-item-thumb-placeholder" style="background:${p.gradient};">✦</div>`}
+      <div class="admin-list-item-info">
+        <div class="admin-list-item-title">${p.title}</div>
+        <div class="admin-list-item-meta">${p.artist} · ${p.type} · ${p.price}</div>
+      </div>
+      <div class="admin-list-item-actions">
+        <button class="admin-btn warn" onclick="editPainting('${p.id}')">✎ Sửa</button>
+        <button class="admin-btn danger" onclick="deletePainting('${p.id}')">✕ Xóa</button>
+      </div>
+    </div>`).join('');
+}
+function resetPaintingForm() {
+  document.getElementById('pEditId').value = '';
+  document.getElementById('pFormTitle').textContent = 'THÊM TRANH MỚI';
+  document.getElementById('pSaveBtn').textContent = '✓ LƯU & ĐĂNG LÊN GALLERY';
+  ['pTitle','pArtist','pPrice','pSize','pYear','pStory','pImgUrl'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pType').selectedIndex = 0;
+  document.getElementById('pImgPreview').classList.remove('show');
+  document.getElementById('pImgFile').value = '';
+}
+function editPainting(id) {
+  const p = paintings.find(x => x.id === id); if (!p) return;
+  document.getElementById('pEditId').value = id;
+  document.getElementById('pFormTitle').textContent = 'CHỈNH SỬA TRANH';
+  document.getElementById('pSaveBtn').textContent = '✓ CẬP NHẬT TRANH';
+  document.getElementById('pTitle').value = p.title;
+  document.getElementById('pArtist').value = p.artist;
+  document.getElementById('pPrice').value = p.price;
+  document.getElementById('pSize').value = p.size || '';
+  document.getElementById('pYear').value = p.year || '';
+  document.getElementById('pStory').value = p.story;
+  const typeOpts = document.getElementById('pType').options;
+  for(let i=0;i<typeOpts.length;i++) if(typeOpts[i].value===p.type){document.getElementById('pType').selectedIndex=i;break;}
+  if (p.img) {
+    document.getElementById('pImgPreview').src = p.img;
+    document.getElementById('pImgPreview').classList.add('show');
+    if (p.img.startsWith('http')) document.getElementById('pImgUrl').value = p.img;
+  } else {
+    document.getElementById('pImgPreview').classList.remove('show');
+  }
+  switchAdmin('painting-form', null);
+}
+function savePainting() {
+  const title = document.getElementById('pTitle').value.trim();
+  const artist = document.getElementById('pArtist').value.trim();
+  const price = document.getElementById('pPrice').value.trim();
+  const story = document.getElementById('pStory').value.trim();
+  if (!title || !artist || !price || !story) { showAdminMsg('pMsg','⚠ Vui lòng điền đầy đủ các trường bắt buộc (*)'); return; }
+  const img = getImageValue('pImgFile','pImgUrl','pImgPreview');
+  const editId = document.getElementById('pEditId').value;
+  const data = {
+    title, artist, price, story, img,
+    type: document.getElementById('pType').value,
+    size: document.getElementById('pSize').value.trim(),
+    year: document.getElementById('pYear').value.trim(),
+    gradient: `linear-gradient(145deg,hsl(${Math.random()*360},30%,12%),hsl(${Math.random()*360},25%,20%) 45%,hsl(${Math.random()*360},20%,10%))`
+  };
+  if (editId) {
+    const idx = paintings.findIndex(x => x.id === editId);
+    if (idx >= 0) { data.id = editId; data.gradient = paintings[idx].gradient; paintings[idx] = data; }
+    showAdminMsg('pMsg','✓ Đã cập nhật tranh "'+title+'"!');
+  } else {
+    data.id = genId('p');
+    paintings.push(data);
+    showAdminMsg('pMsg','✓ Đã đăng tranh "'+title+'" lên Gallery!');
+  }
+  saveData(); renderGallery(); renderFeatured(); renderPaintingsList();
+  resetPaintingForm();
+}
+function deletePainting(id) {
+  const p = paintings.find(x => x.id === id);
+  if (!confirm('Xóa tranh "'+p.title+'"? Hành động này không thể hoàn tác.')) return;
+  paintings = paintings.filter(x => x.id !== id);
+  saveData(); renderGallery(); renderFeatured(); renderPaintingsList();
+}
+
+// ═══════════════════════════════════════
+// ARTICLE CRUD
+// ═══════════════════════════════════════
+function renderArticlesList() {
+  const list = document.getElementById('articlesList');
+  if (!articles.length) { list.innerHTML = '<div style="font-size:.9rem;color:var(--warm-gray);padding:1rem;font-style:italic;">Chưa có bài viết nào.</div>'; return; }
+  list.innerHTML = articles.map((a,i) => `
+    <div class="admin-list-item">
+      ${a.img ? `<img class="admin-list-item-thumb" src="${a.img}" alt="">` : `<div class="admin-list-item-thumb-placeholder" style="background:${a.gradient};">✦</div>`}
+      <div class="admin-list-item-info">
+        <div class="admin-list-item-title">${a.title}</div>
+        <div class="admin-list-item-meta">${a.tag} · ${a.cat}</div>
+      </div>
+      <div class="admin-list-item-actions">
+        <button class="admin-btn warn" onclick="editArticle('${a.id}')">✎ Sửa</button>
+        <button class="admin-btn danger" onclick="deleteArticle('${a.id}')">✕ Xóa</button>
+      </div>
+    </div>`).join('');
+}
+function resetArticleForm() {
+  document.getElementById('aEditId').value = '';
+  document.getElementById('aFormTitle').textContent = 'THÊM BÀI VIẾT MỚI';
+  document.getElementById('aSaveBtn').textContent = '✓ LƯU & ĐĂNG BÀI VIẾT';
+  ['aTitle','aTag','aSummary','aContent','aImgUrl'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('aCat').selectedIndex = 0;
+  document.getElementById('aImgPreview').classList.remove('show');
+  document.getElementById('aImgFile').value = '';
+}
+function parseContent(raw) {
+  const paras = raw.trim().split(/\n\n+/);
+  return paras.map(p => {
+    p = p.trim();
+    if (p.startsWith('**') && p.endsWith('**')) return `<h4>${p.slice(2,-2)}</h4>`;
+    if (/^\*\*(.+)\*\*/.test(p)) {
+      const lines = p.split('\n');
+      const title = lines[0].replace(/\*\*/g,'');
+      const rest = lines.slice(1).join('\n');
+      return `<h4>${title}</h4>${rest ? parseContent(rest) : ''}`;
+    }
+    if (p.startsWith('- ') || p.includes('\n- ')) {
+      const items = p.split('\n').filter(l=>l.trim()).map(l=>`<li>${l.replace(/^-\s*/,'').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</li>`).join('');
+      return `<ul>${items}</ul>`;
+    }
+    return `<p>${p.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</p>`;
+  }).join('');
+}
+function contentToRaw(html) {
+  return html
+    .replace(/<h4>(.*?)<\/h4>/g,'**$1**\n\n')
+    .replace(/<ul>(.*?)<\/ul>/gs, (m,inner) => inner.replace(/<li>(.*?)<\/li>/g,'- $1\n').trim()+'\n\n')
+    .replace(/<p>(.*?)<\/p>/g,'$1\n\n')
+    .replace(/<strong>(.*?)<\/strong>/g,'**$1**')
+    .replace(/<[^>]+>/g,'')
+    .trim();
+}
+function editArticle(id) {
+  const a = articles.find(x => x.id === id); if (!a) return;
+  document.getElementById('aEditId').value = id;
+  document.getElementById('aFormTitle').textContent = 'CHỈNH SỬA BÀI VIẾT';
+  document.getElementById('aSaveBtn').textContent = '✓ CẬP NHẬT BÀI VIẾT';
+  document.getElementById('aTitle').value = a.title;
+  document.getElementById('aTag').value = a.tag;
+  document.getElementById('aSummary').value = a.summary;
+  document.getElementById('aContent').value = contentToRaw(a.content);
+  const catOpts = document.getElementById('aCat').options;
+  for(let i=0;i<catOpts.length;i++) if(catOpts[i].value===a.cat){document.getElementById('aCat').selectedIndex=i;break;}
+  if (a.img) {
+    document.getElementById('aImgPreview').src = a.img;
+    document.getElementById('aImgPreview').classList.add('show');
+    if (a.img.startsWith('http')) document.getElementById('aImgUrl').value = a.img;
+  } else {
+    document.getElementById('aImgPreview').classList.remove('show');
+  }
+  switchAdmin('article-form', null);
+}
+function saveArticle() {
+  const title = document.getElementById('aTitle').value.trim();
+  const summary = document.getElementById('aSummary').value.trim();
+  const rawContent = document.getElementById('aContent').value.trim();
+  if (!title || !summary || !rawContent) { showAdminMsg('aMsg','⚠ Vui lòng điền đầy đủ tiêu đề, tóm tắt và nội dung'); return; }
+  const img = getImageValue('aImgFile','aImgUrl','aImgPreview');
+  const editId = document.getElementById('aEditId').value;
+  const data = {
+    title, summary, img,
+    tag: document.getElementById('aTag').value.trim() || 'Bài Viết',
+    cat: document.getElementById('aCat').value,
+    content: parseContent(rawContent),
+    gradient: `linear-gradient(145deg,hsl(${Math.random()*360},25%,8%),hsl(${Math.random()*360},20%,15%) 50%,hsl(${Math.random()*360},15%,6%))`
+  };
+  if (editId) {
+    const idx = articles.findIndex(x => x.id === editId);
+    if (idx >= 0) { data.id = editId; data.gradient = articles[idx].gradient; articles[idx] = data; }
+    showAdminMsg('aMsg','✓ Đã cập nhật bài viết "'+title+'"!');
+  } else {
+    data.id = genId('a');
+    articles.push(data);
+    showAdminMsg('aMsg','✓ Đã đăng bài viết "'+title+'"!');
+  }
+  saveData(); renderArticles(); renderArticlesList();
+  resetArticleForm();
+}
+function deleteArticle(id) {
+  const a = articles.find(x => x.id === id);
+  if (!confirm('Xóa bài viết "'+a.title+'"? Hành động này không thể hoàn tác.')) return;
+  articles = articles.filter(x => x.id !== id);
+  saveData(); renderArticles(); renderArticlesList();
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function showAdminMsg(id, txt) {
+  const el = document.getElementById(id);
+  el.textContent = txt; el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 5000);
+}
+
+// Drag-drop for upload areas
+['pImgDropArea','aImgDropArea'].forEach(areaId => {
+  const area = document.getElementById(areaId);
+  if (!area) return;
+  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag-over'); });
+  area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
+  area.addEventListener('drop', e => {
+    e.preventDefault(); area.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const isP = areaId === 'pImgDropArea';
+    fileToBase64(file).then(b64 => {
+      const pid = isP ? 'pImgPreview' : 'aImgPreview';
+      document.getElementById(pid).src = b64;
+      document.getElementById(pid).classList.add('show');
+      if(isP) document.getElementById('pImgUrl').value=''; else document.getElementById('aImgUrl').value='';
+    });
+  });
+});
+
+// Scroll reveal
+const revealObs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Marquee
+const track = document.getElementById('marqueeTrack');
+if (track) track.innerHTML += track.innerHTML;
+
+// ═══════════════════════════════════════
+// PUBLISH — GITHUB + NETLIFY
+// ═══════════════════════════════════════
+function switchPublishTab(tab) {
+  const isGH = tab === 'gh';
+  document.getElementById('tabContentGH').style.display = isGH ? 'block' : 'none';
+  document.getElementById('tabContentNL').style.display = isGH ? 'none' : 'block';
+  document.getElementById('tabGH').style.background = isGH ? 'rgba(201,168,76,.15)' : 'none';
+  document.getElementById('tabGH').style.color = isGH ? 'var(--gold)' : 'var(--warm-gray)';
+  document.getElementById('tabGH').style.borderBottom = isGH ? '2px solid var(--gold)' : 'none';
+  document.getElementById('tabNL').style.background = !isGH ? 'rgba(201,168,76,.15)' : 'none';
+  document.getElementById('tabNL').style.color = !isGH ? 'var(--gold)' : 'var(--warm-gray)';
+  document.getElementById('tabNL').style.borderBottom = !isGH ? '2px solid var(--gold)' : 'none';
+}
+
+function saveGithubConfig() {
+  const user = document.getElementById('ghUser').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  if (!user || !repo || !token) { showQuickMsg('ghConfigMsg','⚠ Vui lòng điền đủ 3 trường', false); return; }
+  localStorage.setItem('gh_user', user);
+  localStorage.setItem('gh_repo', repo);
+  localStorage.setItem('gh_token', token);
+  showQuickMsg('ghConfigMsg','✓ Đã lưu! Nhấn "Cập Nhật Website" để test.', true);
+}
+
+function saveNetlifyConfig() {
+  const hook = document.getElementById('netlifyHook').value.trim();
+  if (!hook || !hook.startsWith('https://api.netlify.com')) {
+    showQuickMsg('nlConfigMsg','⚠ URL hook không đúng định dạng', false); return;
+  }
+  localStorage.setItem('netlify_hook', hook);
+  showQuickMsg('nlConfigMsg','✓ Đã lưu Netlify Hook!', true);
+}
+
+function loadGithubConfig() {
+  const u = localStorage.getItem('gh_user')||'', r = localStorage.getItem('gh_repo')||'', t = localStorage.getItem('gh_token')||'';
+  const h = localStorage.getItem('netlify_hook')||'';
+  if (document.getElementById('ghUser')) { document.getElementById('ghUser').value=u; document.getElementById('ghRepo').value=r; document.getElementById('ghToken').value=t; }
+  if (document.getElementById('netlifyHook')) document.getElementById('netlifyHook').value = h;
+}
+
+function buildHTMLWithData() {
+  const html = document.documentElement.outerHTML;
+  const p = JSON.stringify(paintings).replace(/`/g,'\\`');
+  const a = JSON.stringify(articles).replace(/`/g,'\\`');
+  const t = JSON.stringify(teamMembers).replace(/`/g,'\\`');
+  const c = JSON.stringify(contactInfo).replace(/`/g,'\\`');
+  return html
+    .replace(/const DEFAULT_PAINTINGS = \[[\s\S]*?\];/, `const DEFAULT_PAINTINGS = ${JSON.stringify(paintings)};`)
+    .replace(/const DEFAULT_ARTICLES = \[[\s\S]*?\];/, `const DEFAULT_ARTICLES = ${JSON.stringify(articles)};`)
+    .replace(/const DEFAULT_TEAM = \[[\s\S]*?\];/, `const DEFAULT_TEAM = ${JSON.stringify(teamMembers)};`)
+    .replace(/const DEFAULT_CONTACT = \{[\s\S]*?\};/, `const DEFAULT_CONTACT = ${JSON.stringify(contactInfo)};`);
+}
+
+async function publishSite() {
+  const user = localStorage.getItem('gh_user')||'';
+  const repo = localStorage.getItem('gh_repo')||'';
+  const token = localStorage.getItem('gh_token')||'';
+  const netlifyHook = localStorage.getItem('netlify_hook')||'';
+
+  if (!user || !repo || !token) {
+    showPublishMsg('⚠ Chưa cấu hình GitHub Token. Vào tab "1. GITHUB TOKEN" để điền thông tin.', false);
+    return;
+  }
+
+  const btn = document.getElementById('publishBtn');
+  btn.textContent = '⏳ ĐANG XỬ LÝ...';
+  btn.disabled = true;
+  btn.style.opacity = '.7';
+
+  try {
+    // Step 1: Get SHA of current index.html
+    showPublishMsg('🔄 Bước 1/3 — Kết nối GitHub...', true);
+    const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getRes.ok) {
+      const e = await getRes.json();
+      throw new Error(`GitHub: ${e.message || getRes.status}`);
+    }
+    const { sha } = await getRes.json();
+
+    // Step 2: Build and encode new HTML
+    showPublishMsg('🔄 Bước 2/3 — Chuẩn bị nội dung mới...', true);
+    const newHtml = buildHTMLWithData();
+    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+
+    // Step 3: Push to GitHub
+    showPublishMsg('🔄 Bước 3/3 — Đẩy lên GitHub...', true);
+    const d = new Date();
+    const msg = `Cập nhật ${d.toLocaleDateString('vi-VN')} ${d.toLocaleTimeString('vi-VN')}`;
+    const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg, content: encoded, sha })
+    });
+    if (!putRes.ok) {
+      const e = await putRes.json();
+      throw new Error(`GitHub push: ${e.message || putRes.status}`);
+    }
+
+    // Step 4: Trigger Netlify if configured
+    if (netlifyHook) {
+      showPublishMsg('🔄 Kích hoạt Netlify deploy...', true);
+      await fetch(netlifyHook, { method: 'POST' }).catch(()=>{});
+      showPublishMsg('✅ Hoàn tất! Đã push GitHub + kích hoạt Netlify.\nWebsite lumoragallery.art sẽ cập nhật sau 1–2 phút.\n(Nhấn Ctrl+Shift+R để xem thay đổi)', true);
+    } else {
+      showPublishMsg('✅ Đã push lên GitHub thành công!\nNếu đang dùng GitHub Pages: website cập nhật sau 1–2 phút.\nNếu dùng Netlify: thêm Build Hook ở tab "2. NETLIFY HOOK" để deploy tự động.', true);
+    }
+
+  } catch(err) {
+    showPublishMsg(`❌ Lỗi: ${err.message}\n\nGợi ý: Kiểm tra lại token (phải tick ✅ repo) và tên username/repo.`, false);
+  } finally {
+    btn.textContent = '⬆ CẬP NHẬT WEBSITE NGAY';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+}
+
+function showPublishMsg(msg, success) {
+  const el = document.getElementById('publishMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = success ? 'var(--gold-light)' : '#e08080';
+  el.style.borderColor = success ? 'rgba(201,168,76,.25)' : 'rgba(180,60,60,.3)';
+  el.style.background = success ? 'rgba(201,168,76,.05)' : 'rgba(180,60,60,.05)';
+  el.style.whiteSpace = 'pre-line';
+}
+
+function showQuickMsg(id, msg, success) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = success ? 'var(--gold)' : '#e08080';
+  setTimeout(() => el.style.display = 'none', 4000);
+}
+
+
+function saveGithubConfig() {
+  const user = document.getElementById('ghUser').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  if (!user || !repo || !token) { showPublishMsg('⚠ Vui lòng điền đủ Username, Repo và Token', false); return; }
+  localStorage.setItem('gh_user', user);
+  localStorage.setItem('gh_repo', repo);
+  localStorage.setItem('gh_token', token);
+  showPublishMsg('✓ Đã lưu cấu hình GitHub!', true);
+}
+
+function loadGithubConfig() {
+  const u = localStorage.getItem('gh_user') || '';
+  const r = localStorage.getItem('gh_repo') || '';
+  const t = localStorage.getItem('gh_token') || '';
+  if (document.getElementById('ghUser')) {
+    document.getElementById('ghUser').value = u;
+    document.getElementById('ghRepo').value = r;
+    document.getElementById('ghToken').value = t;
+  }
+}
+
+function buildHTMLWithData() {
+  // Get current page HTML
+  const html = document.documentElement.outerHTML;
+  // Inject current data into DEFAULT constants so it's baked in
+  const p = JSON.stringify(paintings);
+  const a = JSON.stringify(articles);
+  const t = JSON.stringify(teamMembers);
+  const c = JSON.stringify(contactInfo);
+  // Replace the DEFAULT_* constants with current live data
+  return html
+    .replace(/const DEFAULT_PAINTINGS = \[[\s\S]*?\];/, `const DEFAULT_PAINTINGS = ${p};`)
+    .replace(/const DEFAULT_ARTICLES = \[[\s\S]*?\];/, `const DEFAULT_ARTICLES = ${a};`)
+    .replace(/const DEFAULT_TEAM = \[[\s\S]*?\];/, `const DEFAULT_TEAM = ${t};`)
+    .replace(/const DEFAULT_CONTACT = \{[\s\S]*?\};/, `const DEFAULT_CONTACT = ${c};`);
+}
+
+async function publishToGithub() {
+  const user = localStorage.getItem('gh_user') || document.getElementById('ghUser').value.trim();
+  const repo = localStorage.getItem('gh_repo') || document.getElementById('ghRepo').value.trim();
+  const token = localStorage.getItem('gh_token') || document.getElementById('ghToken').value.trim();
+
+  if (!user || !repo || !token) {
+    showPublishMsg('⚠ Chưa cấu hình GitHub. Vui lòng điền Username, Repo và Token rồi nhấn "Lưu Cấu Hình" trước.', false);
+    return;
+  }
+
+  const btn = document.getElementById('publishBtn');
+  btn.textContent = '⏳ ĐANG CẬP NHẬT...';
+  btn.style.opacity = '.6';
+  btn.disabled = true;
+
+  try {
+    // Step 1: Get current file SHA
+    showPublishMsg('🔄 Đang kết nối GitHub...', true);
+    const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getRes.ok) {
+      const err = await getRes.json();
+      throw new Error(err.message || `Lỗi ${getRes.status}: Không tìm thấy file index.html`);
+    }
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // Step 2: Build new HTML with current data baked in
+    showPublishMsg('🔄 Đang tạo nội dung mới...', true);
+    const newHtml = buildHTMLWithData();
+    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+
+    // Step 3: Push to GitHub
+    showPublishMsg('🔄 Đang đẩy lên GitHub...', true);
+    const now = new Date();
+    const commitMsg = `Cập nhật nội dung ${now.toLocaleDateString('vi-VN')} ${now.toLocaleTimeString('vi-VN')}`;
+    const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: commitMsg, content: encoded, sha })
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || `Lỗi ${putRes.status} khi push lên GitHub`);
+    }
+
+    showPublishMsg('✅ Đã cập nhật thành công! Website lumoragallery.art sẽ cập nhật sau 1–2 phút. Nhấn Ctrl+Shift+R để xem thay đổi.', true);
+
+  } catch (err) {
+    showPublishMsg(`❌ Lỗi: ${err.message}`, false);
+  } finally {
+    btn.textContent = '⬆ CẬP NHẬT WEBSITE NGAY';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+  }
+}
+
+function showPublishMsg(msg, success) {
+  const el = document.getElementById('publishMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = success ? 'var(--gold-light)' : '#e08080';
+  el.style.borderColor = success ? 'rgba(201,168,76,.3)' : 'rgba(180,60,60,.3)';
+  el.style.background = success ? 'rgba(201,168,76,.05)' : 'rgba(180,60,60,.05)';
+}
+
+
+function renderTeam() {
+  const grid = document.getElementById('teamGrid');
+  if (!grid) return;
+  grid.innerHTML = teamMembers.map(m => `
+    <div class="team-card">
+      <div class="team-photo">${m.img ? `<img src="${m.img}" alt="${m.name}">` : m.initials}</div>
+      <div class="team-name">${m.name}</div>
+      <div class="team-role">${m.role}</div>
+      <div class="team-bio">${m.bio}</div>
+    </div>`).join('');
+}
+
+function renderTeamList() {
+  const list = document.getElementById('teamList');
+  if (!list) return;
+  if (!teamMembers.length) { list.innerHTML = '<div style="font-size:.9rem;color:var(--warm-gray);padding:1rem;font-style:italic;">Chưa có thành viên nào.</div>'; return; }
+  list.innerHTML = teamMembers.map((m,i) => `
+    <div class="admin-list-item">
+      ${m.img ? `<img class="admin-list-item-thumb" src="${m.img}" alt="" style="aspect-ratio:3/4;object-fit:cover;">` : `<div class="admin-list-item-thumb-placeholder">${m.initials||'👤'}</div>`}
+      <div class="admin-list-item-info">
+        <div class="admin-list-item-title">${m.name}</div>
+        <div class="admin-list-item-meta">${m.role}</div>
+      </div>
+      <div class="admin-list-item-actions">
+        <button class="admin-btn warn" onclick="editTeamMember('${m.id}')">✎ Sửa</button>
+        <button class="admin-btn danger" onclick="deleteTeamMember('${m.id}')">✕ Xóa</button>
+      </div>
+    </div>`).join('');
+}
+
+function addTeamMember() {
+  resetTeamForm();
+  document.getElementById('teamFormWrap').style.display = 'block';
+  document.getElementById('teamFormWrap').scrollIntoView({behavior:'smooth'});
+}
+function resetTeamForm() {
+  document.getElementById('tmEditId').value = '';
+  document.getElementById('tmFormTitle').textContent = 'THÊM THÀNH VIÊN MỚI';
+  ['tmName','tmRole','tmBio','tmImgUrl'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('tmImgPreview').classList.remove('show');
+  document.getElementById('tmImgFile').value = '';
+}
+function editTeamMember(id) {
+  const m = teamMembers.find(x => x.id === id); if (!m) return;
+  document.getElementById('tmEditId').value = id;
+  document.getElementById('tmFormTitle').textContent = 'CHỈNH SỬA THÀNH VIÊN';
+  document.getElementById('tmName').value = m.name;
+  document.getElementById('tmRole').value = m.role;
+  document.getElementById('tmBio').value = m.bio;
+  if (m.img) {
+    document.getElementById('tmImgPreview').src = m.img;
+    document.getElementById('tmImgPreview').classList.add('show');
+    if (m.img.startsWith('http')) document.getElementById('tmImgUrl').value = m.img;
+  } else { document.getElementById('tmImgPreview').classList.remove('show'); }
+  document.getElementById('teamFormWrap').style.display = 'block';
+  document.getElementById('teamFormWrap').scrollIntoView({behavior:'smooth'});
+}
+function saveTeamMember() {
+  const name = document.getElementById('tmName').value.trim();
+  const role = document.getElementById('tmRole').value.trim();
+  if (!name || !role) { showAdminMsg('tmMsg','⚠ Vui lòng điền tên và vai trò'); return; }
+  const img = getImageValue('tmImgFile','tmImgUrl','tmImgPreview');
+  const editId = document.getElementById('tmEditId').value;
+  const data = { name, role, bio: document.getElementById('tmBio').value.trim(), img, initials: name.charAt(0).toUpperCase() };
+  if (editId) {
+    const idx = teamMembers.findIndex(x => x.id === editId);
+    if (idx >= 0) { data.id = editId; teamMembers[idx] = data; }
+    showAdminMsg('tmMsg','✓ Đã cập nhật thông tin "'+name+'"!');
+  } else {
+    data.id = genId('t');
+    teamMembers.push(data);
+    showAdminMsg('tmMsg','✓ Đã thêm thành viên "'+name+'"!');
+  }
+  saveData(); renderTeam(); renderTeamList();
+  document.getElementById('teamFormWrap').style.display = 'none';
+}
+function deleteTeamMember(id) {
+  const m = teamMembers.find(x => x.id === id);
+  if (!confirm('Xóa thành viên "'+m.name+'"?')) return;
+  teamMembers = teamMembers.filter(x => x.id !== id);
+  saveData(); renderTeam(); renderTeamList();
+}
+async function handleTeamImg(input) {
+  if (!input.files[0]) return;
+  const b64 = await fileToBase64(input.files[0]);
+  document.getElementById('tmImgPreview').src = b64;
+  document.getElementById('tmImgPreview').classList.add('show');
+  document.getElementById('tmImgUrl').value = '';
+}
+['tmImgDropArea'].forEach(areaId => {
+  const area = document.getElementById(areaId);
+  if (!area) return;
+  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag-over'); });
+  area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
+  area.addEventListener('drop', e => {
+    e.preventDefault(); area.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    fileToBase64(file).then(b64 => { document.getElementById('tmImgPreview').src=b64; document.getElementById('tmImgPreview').classList.add('show'); document.getElementById('tmImgUrl').value=''; });
+  });
+});
+
+// ═══════════════════════════════════════
+// CONTACT INFO
+// ═══════════════════════════════════════
+function renderContactInfo() {
+  const block = document.getElementById('contactInfoBlock');
+  if (!block) return;
+  const ci = contactInfo;
+  const items = [
+    ci.website ? {icon:'✦',label:'Website',val:ci.website} : null,
+    ci.email ? {icon:'✉',label:'Email',val:`<a href="mailto:${ci.email}" style="color:var(--warm-gray);text-decoration:none;">${ci.email}</a>`} : null,
+    ci.phone ? {icon:'◈',label:'Điện Thoại & Zalo',val:ci.phone} : null,
+    ci.address ? {icon:'◉',label:'Địa Chỉ',val:ci.address} : null,
+    ci.hours ? {icon:'⊡',label:'Giờ Làm Việc',val:ci.hours.replace(/\n/g,'<br>')} : null,
+  ].filter(Boolean);
+  block.innerHTML = items.map((item,i) => `
+    <div class="contact-info-item" style="${i===items.length-1?'border:none;':''}">
+      <div class="contact-icon">${item.icon}</div>
+      <div class="contact-info-text"><strong>${item.label}</strong><span>${item.val}</span></div>
+    </div>`).join('');
+  // Update contact intro
+  const intro = document.querySelector('.contact-left p');
+  if (intro && ci.intro) intro.textContent = ci.intro;
+  // Update footer contact
+  const footerContact = document.querySelector('#contact .footer-col:last-child ul');
+}
+
+function loadContactForm() {
+  const ci = contactInfo;
+  document.getElementById('ciWebsite').value = ci.website||'';
+  document.getElementById('ciEmail').value = ci.email||'';
+  document.getElementById('ciPhone').value = ci.phone||'';
+  document.getElementById('ciAddress').value = ci.address||'';
+  document.getElementById('ciHours').value = ci.hours||'';
+  document.getElementById('ciIntro').value = ci.intro||'';
+  document.getElementById('ciFacebook').value = ci.facebook||'';
+  document.getElementById('ciInstagram').value = ci.instagram||'';
+  document.getElementById('ciZalo').value = ci.zalo||'';
+}
+function saveContactInfo() {
+  contactInfo = {
+    website: document.getElementById('ciWebsite').value.trim(),
+    email: document.getElementById('ciEmail').value.trim(),
+    phone: document.getElementById('ciPhone').value.trim(),
+    address: document.getElementById('ciAddress').value.trim(),
+    hours: document.getElementById('ciHours').value.trim(),
+    intro: document.getElementById('ciIntro').value.trim(),
+    facebook: document.getElementById('ciFacebook').value.trim(),
+    instagram: document.getElementById('ciInstagram').value.trim(),
+    zalo: document.getElementById('ciZalo').value.trim(),
+  };
+  saveData(); renderContactInfo();
+  showAdminMsg('ciMsg','✓ Đã lưu thông tin liên hệ!');
+}
+
+// ═══ INIT ═══
+loadData();
+renderGallery();
+renderFeatured();
+renderArticles();
+renderTeam();
+renderContactInfo();
+</script>
+</body>
+</html>
