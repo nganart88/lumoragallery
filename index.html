@@ -425,8 +425,8 @@ footer{padding:4rem 5vw 2rem;border-top:1px solid var(--border);display:grid;gri
 </head>
 <body __processed_46314f9b-37a3-4f98-9fdf-5950ce2d15a6__="true" style="overflow: hidden;">
 
-<div class="cursor" id="cursor" style="left: 599px; top: 696px;"></div>
-<div class="cursor-ring" id="cursorRing" style="left: 599px; top: 696px; width: 60px; height: 60px; opacity: 1;"></div>
+<div class="cursor" id="cursor" style="left: 581px; top: 773px;"></div>
+<div class="cursor-ring" id="cursorRing" style="left: 581px; top: 773px; width: 36px; height: 36px; opacity: 0.6;"></div>
 <div class="edit-indicator show" id="editIndicator">✎ CHẾ ĐỘ QUẢN TRỊ — Bạn đang đăng nhập với tư cách Quản Trị Viên</div>
 
 <!-- NAV -->
@@ -1447,7 +1447,7 @@ Chủ Nhật: Theo Hẹn"></textarea></div>
           </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
             <button onclick="saveGithubConfig()" style="background: none; color: var(--gold); border: 1px solid var(--gold); font-family: Cinzel, serif; font-size: 0.6rem; letter-spacing: 0.2em; padding: 10px 20px; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='rgba(201,168,76,.1)'" onmouseout="this.style.background='none'">LƯU CẤU HÌNH</button>
-            <button onclick="publishToGithub()" id="publishBtn" style="background: var(--gold-light); color: var(--dark); font-family: Cinzel, serif; font-size: 0.75rem; letter-spacing: 0.2em; border: none; padding: 14px 32px; cursor: pointer; transition: 0.3s; font-weight: 600; opacity: 0.6;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'" disabled="">⏳ ĐANG CẬP NHẬT...</button>
+            <button onclick="publishToGithub()" id="publishBtn" style="background: var(--gold); color: var(--dark); font-family: Cinzel, serif; font-size: 0.75rem; letter-spacing: 0.2em; border: none; padding: 14px 32px; cursor: pointer; transition: 0.3s; font-weight: 600; opacity: 0.6;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'" disabled="">⏳ ĐANG CẬP NHẬT...</button>
           </div>
           <div id="publishMsg" style="margin-top: 1rem; padding: 0.8rem 1rem; display: block; font-size: 0.9rem; border: 1px solid rgba(201, 168, 76, 0.3); color: var(--gold-light); background: rgba(201, 168, 76, 0.05);">🔄 Đang tạo nội dung mới...</div>
         </div>
@@ -1460,7 +1460,7 @@ Chủ Nhật: Theo Hẹn"></textarea></div>
           <div class="admin-form-group"><label>Mật Khẩu Mới</label><input type="password" id="newPass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"></div>
           <div class="admin-form-group"><label>Xác Nhận Mật Khẩu Mới</label><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu mới"></div>
           <button class="admin-btn" onclick="changePassword()">✓ ĐỔI MẬT KHẨU</button>
-          <div class="admin-msg" id="passMsg"></div>
+          <div class="admin-msg" id="passMsg" style="display: none;">✓ Đổi mật khẩu thành công!</div>
         </div>
 
         <!-- DATA RESET -->
