@@ -864,19 +864,69 @@ footer{padding:4rem 5vw 2rem;border-top:1px solid var(--border);display:grid;gri
 
       <!-- SETTINGS -->
       <div class="admin-section" id="admin-settings">
-        <div class="admin-section-title">CÀI ĐẶT</div>
-        <div class="admin-tip"><strong>🔐 ĐỔI MẬT KHẨU QUẢN TRỊ</strong><br>Mật khẩu mặc định: <strong>lumora2024</strong><br>Nên đổi mật khẩu ngay sau lần đăng nhập đầu tiên.</div>
-        <div class="admin-form-group"><label>Mật Khẩu Hiện Tại</label><input type="password" id="oldPass" placeholder="Nhập mật khẩu hiện tại"></div>
-        <div class="admin-form-group"><label>Mật Khẩu Mới</label><input type="password" id="newPass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"></div>
-        <div class="admin-form-group"><label>Xác Nhận Mật Khẩu Mới</label><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu mới"></div>
-        <button class="admin-btn" onclick="changePassword()">✓ ĐỔI MẬT KHẨU</button>
-        <div class="admin-msg" id="passMsg"></div>
-        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
-          <div class="admin-section-title" style="font-size:.7rem;">DỮ LIỆU</div>
-          <div class="admin-tip"><strong>⚠ Lưu ý:</strong> Dữ liệu và ảnh được lưu trong trình duyệt (localStorage). Khi triển khai lên hosting thật, dữ liệu sẽ cần server database để lưu vĩnh viễn.</div>
+        <div class="admin-section-title">XUẤT BẢN & CÀI ĐẶT</div>
+
+        <!-- PUBLISH SECTION -->
+        <div style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:2px solid rgba(201,168,76,.45);padding:2rem;margin-bottom:2.5rem;">
+          <div style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.6rem;">🚀 CẬP NHẬT WEBSITE TỰ ĐỘNG</div>
+          <p style="font-size:.9rem;color:var(--warm-gray);line-height:1.8;margin-bottom:1.5rem;">Nhấn 1 nút → website tự cập nhật trên <strong style="color:var(--cream);">lumoragallery.art</strong> sau 1–2 phút. Không cần tải file, không cần upload thủ công.</p>
+
+          <!-- Steps -->
+          <div style="background:rgba(0,0,0,.35);padding:1.4rem;margin-bottom:1.5rem;border-left:3px solid rgba(201,168,76,.3);">
+            <div style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1rem;">SETUP 1 LẦN DUY NHẤT</div>
+            <div style="font-size:.88rem;color:var(--cream);line-height:2;">
+              1. Vào <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--gold-light);">github.com/settings/tokens/new</a><br>
+              2. Note: <code style="background:rgba(201,168,76,.12);padding:1px 6px;">Lumora Admin</code> · Expiration: <code style="background:rgba(201,168,76,.12);padding:1px 6px;">No expiration</code><br>
+              3. Tick ✅ <strong>repo</strong> → nhấn <strong>Generate token</strong><br>
+              4. Copy token (dạng <code style="background:rgba(201,168,76,.12);padding:1px 6px;">ghp_xxxxxxxxxxxx</code>) → dán vào ô bên dưới
+            </div>
+          </div>
+
+          <!-- GitHub config inputs -->
+          <div class="admin-form-row" style="margin-bottom:1rem;">
+            <div class="admin-form-group" style="margin-bottom:0;">
+              <label>GitHub Username</label>
+              <input type="text" id="ghUser" placeholder="nganart88" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;width:100%;transition:border-color .3s;">
+            </div>
+            <div class="admin-form-group" style="margin-bottom:0;">
+              <label>Repository Name</label>
+              <input type="text" id="ghRepo" placeholder="lumoragallery" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;width:100%;transition:border-color .3s;">
+            </div>
+          </div>
+          <div class="admin-form-group" style="margin-bottom:1.5rem;">
+            <label>GitHub Personal Access Token</label>
+            <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--cream);padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;width:100%;transition:border-color .3s;letter-spacing:.05em;">
+            <div style="font-size:.78rem;color:rgba(107,97,87,.7);margin-top:.4rem;">Token được lưu trong trình duyệt của bạn, không gửi đi đâu ngoài GitHub API.</div>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+            <button onclick="saveGithubConfig()" style="background:none;color:var(--gold);border:1px solid var(--gold);font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;padding:10px 20px;cursor:pointer;transition:all .3s;" onmouseover="this.style.background='rgba(201,168,76,.1)'" onmouseout="this.style.background='none'">LƯU CẤU HÌNH</button>
+            <button onclick="publishToGithub()" id="publishBtn" style="background:var(--gold);color:var(--dark);font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.2em;border:none;padding:14px 32px;cursor:pointer;transition:all .3s;font-weight:600;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
+              ⬆ CẬP NHẬT WEBSITE NGAY
+            </button>
+          </div>
+          <div id="publishMsg" style="margin-top:1rem;padding:.8rem 1rem;display:none;font-size:.9rem;border:1px solid;"></div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div style="margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border);">
+          <div style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:1.2rem;">🔐 ĐỔI MẬT KHẨU QUẢN TRỊ</div>
+          <div class="admin-tip"><strong>Mật khẩu mặc định:</strong> lumora2024 — Nên đổi ngay sau lần đầu đăng nhập.</div>
+          <div class="admin-form-group"><label>Mật Khẩu Hiện Tại</label><input type="password" id="oldPass" placeholder="Nhập mật khẩu hiện tại"></div>
+          <div class="admin-form-group"><label>Mật Khẩu Mới</label><input type="password" id="newPass" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"></div>
+          <div class="admin-form-group"><label>Xác Nhận Mật Khẩu Mới</label><input type="password" id="confirmPass" placeholder="Nhập lại mật khẩu mới"></div>
+          <button class="admin-btn" onclick="changePassword()">✓ ĐỔI MẬT KHẨU</button>
+          <div class="admin-msg" id="passMsg"></div>
+        </div>
+
+        <!-- DATA RESET -->
+        <div>
+          <div style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.2em;color:var(--ivory);margin-bottom:1.2rem;">🗄 DỮ LIỆU</div>
+          <div class="admin-tip"><strong>⚠ Lưu ý:</strong> Dữ liệu lưu trong trình duyệt. Sau khi nhấn "Cập Nhật Website", dữ liệu được nhúng thẳng vào file HTML trên GitHub — đảm bảo mọi người đều thấy nội dung mới nhất.</div>
           <button class="admin-btn danger" onclick="if(confirm('Xóa toàn bộ dữ liệu? Hành động này không thể hoàn tác!'))clearAllData()">⚠ Xóa Toàn Bộ Dữ Liệu</button>
         </div>
+
       </div>
+
 
     </div>
   </div>
@@ -1190,6 +1240,7 @@ function openAdmin() {
   renderArticlesList();
   renderTeamList();
   loadContactForm();
+  loadGithubConfig();
   updateStats();
 }
 function closeAdmin() {
@@ -1476,8 +1527,119 @@ const track = document.getElementById('marqueeTrack');
 if (track) track.innerHTML += track.innerHTML;
 
 // ═══════════════════════════════════════
-// TEAM RENDERING
+// GITHUB API PUBLISH
 // ═══════════════════════════════════════
+function saveGithubConfig() {
+  const user = document.getElementById('ghUser').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  if (!user || !repo || !token) { showPublishMsg('⚠ Vui lòng điền đủ Username, Repo và Token', false); return; }
+  localStorage.setItem('gh_user', user);
+  localStorage.setItem('gh_repo', repo);
+  localStorage.setItem('gh_token', token);
+  showPublishMsg('✓ Đã lưu cấu hình GitHub!', true);
+}
+
+function loadGithubConfig() {
+  const u = localStorage.getItem('gh_user') || '';
+  const r = localStorage.getItem('gh_repo') || '';
+  const t = localStorage.getItem('gh_token') || '';
+  if (document.getElementById('ghUser')) {
+    document.getElementById('ghUser').value = u;
+    document.getElementById('ghRepo').value = r;
+    document.getElementById('ghToken').value = t;
+  }
+}
+
+function buildHTMLWithData() {
+  // Get current page HTML
+  const html = document.documentElement.outerHTML;
+  // Inject current data into DEFAULT constants so it's baked in
+  const p = JSON.stringify(paintings);
+  const a = JSON.stringify(articles);
+  const t = JSON.stringify(teamMembers);
+  const c = JSON.stringify(contactInfo);
+  // Replace the DEFAULT_* constants with current live data
+  return html
+    .replace(/const DEFAULT_PAINTINGS = \[[\s\S]*?\];/, `const DEFAULT_PAINTINGS = ${p};`)
+    .replace(/const DEFAULT_ARTICLES = \[[\s\S]*?\];/, `const DEFAULT_ARTICLES = ${a};`)
+    .replace(/const DEFAULT_TEAM = \[[\s\S]*?\];/, `const DEFAULT_TEAM = ${t};`)
+    .replace(/const DEFAULT_CONTACT = \{[\s\S]*?\};/, `const DEFAULT_CONTACT = ${c};`);
+}
+
+async function publishToGithub() {
+  const user = localStorage.getItem('gh_user') || document.getElementById('ghUser').value.trim();
+  const repo = localStorage.getItem('gh_repo') || document.getElementById('ghRepo').value.trim();
+  const token = localStorage.getItem('gh_token') || document.getElementById('ghToken').value.trim();
+
+  if (!user || !repo || !token) {
+    showPublishMsg('⚠ Chưa cấu hình GitHub. Vui lòng điền Username, Repo và Token rồi nhấn "Lưu Cấu Hình" trước.', false);
+    return;
+  }
+
+  const btn = document.getElementById('publishBtn');
+  btn.textContent = '⏳ ĐANG CẬP NHẬT...';
+  btn.style.opacity = '.6';
+  btn.disabled = true;
+
+  try {
+    // Step 1: Get current file SHA
+    showPublishMsg('🔄 Đang kết nối GitHub...', true);
+    const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getRes.ok) {
+      const err = await getRes.json();
+      throw new Error(err.message || `Lỗi ${getRes.status}: Không tìm thấy file index.html`);
+    }
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // Step 2: Build new HTML with current data baked in
+    showPublishMsg('🔄 Đang tạo nội dung mới...', true);
+    const newHtml = buildHTMLWithData();
+    const encoded = btoa(unescape(encodeURIComponent(newHtml)));
+
+    // Step 3: Push to GitHub
+    showPublishMsg('🔄 Đang đẩy lên GitHub...', true);
+    const now = new Date();
+    const commitMsg = `Cập nhật nội dung ${now.toLocaleDateString('vi-VN')} ${now.toLocaleTimeString('vi-VN')}`;
+    const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/index.html`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: commitMsg, content: encoded, sha })
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || `Lỗi ${putRes.status} khi push lên GitHub`);
+    }
+
+    showPublishMsg('✅ Đã cập nhật thành công! Website lumoragallery.art sẽ cập nhật sau 1–2 phút. Nhấn Ctrl+Shift+R để xem thay đổi.', true);
+
+  } catch (err) {
+    showPublishMsg(`❌ Lỗi: ${err.message}`, false);
+  } finally {
+    btn.textContent = '⬆ CẬP NHẬT WEBSITE NGAY';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+  }
+}
+
+function showPublishMsg(msg, success) {
+  const el = document.getElementById('publishMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = success ? 'var(--gold-light)' : '#e08080';
+  el.style.borderColor = success ? 'rgba(201,168,76,.3)' : 'rgba(180,60,60,.3)';
+  el.style.background = success ? 'rgba(201,168,76,.05)' : 'rgba(180,60,60,.05)';
+}
+
+
 function renderTeam() {
   const grid = document.getElementById('teamGrid');
   if (!grid) return;
